@@ -3,6 +3,7 @@ import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Model/person_group.dart';
 import 'package:jerias_math/Screens/manager/add_student.dart';
 import 'package:jerias_math/Screens/manager/manager_student_card.dart';
+import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/main.dart';
 
 class GroupPersonsList extends StatefulWidget {
@@ -55,9 +56,9 @@ class _GroupPersonsListState extends State<GroupPersonsList> {
       );
     }
 
-    final List<GroupPerson?> persons = allPersons
-        .where((person) => person?.groupId == widget.group!.id)
-        .toList();
+    // final List<GroupPerson?> persons = allPersons
+    //     .where((person) => person?.groupId == widget.group!.id)
+    //     .toList();
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -71,13 +72,37 @@ class _GroupPersonsListState extends State<GroupPersonsList> {
         },
         child: const Icon(Icons.add),
       ),
-      body: ListView.builder(
-        itemCount: persons.length,
-        itemBuilder: (context, index) {
-          final person = persons[index];
-          return mgrStudentCard(student: person!.student);
+      body: FutureBuilder<List<GroupPerson?>?>(
+        future: Repository().getGroupPersonsAPI(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else {
+            final groupStudents = snapshot.data!
+                .where((element) => element!.group!.id == widget.group!.id)
+                .toList();
+            return ListView.builder(
+              itemCount: groupStudents.length,
+              itemBuilder: (context, index) {
+                return mgrStudentCard(student: groupStudents[index]!.student);
+              },
+            );
+          }
         },
       ),
+      // ListView.builder(
+      //   itemCount: persons.length,
+      //   itemBuilder: (context, index) {
+      //     final person = persons[index];
+      //     return mgrStudentCard(student: person!.student);
+      //   },
+      // ),
     );
   }
 }
