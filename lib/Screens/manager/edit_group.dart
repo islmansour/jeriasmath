@@ -78,8 +78,7 @@ class _GroupEditPageState extends State<GroupEditPage> {
     _group = widget.group!;
     _nameController = TextEditingController(text: _group.name);
     _typeController = TextEditingController(text: _group.type.toString());
-    _teacherIdController =
-        TextEditingController(text: _group.teacherId.toString());
+    _teacherIdController = TextEditingController(text: "");
     List<String> initWeekdays = widget.group!.weekDays
         .replaceAll("[", "")
         .replaceAll("]", "")
@@ -212,7 +211,7 @@ class _GroupEditPageState extends State<GroupEditPage> {
         onPressed: () {
           _group.name = _nameController.text;
           _group.type = int.parse(_typeController.text);
-          _group.teacherId = int.parse(_teacherIdController.text);
+          // _group.teacherId = int.parse(_teacherIdController.text);
           widget.group!.startDate = _currentDate!;
           final userData = UserData.of(context);
           setState(() {

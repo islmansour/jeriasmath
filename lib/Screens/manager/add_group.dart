@@ -133,7 +133,7 @@ class _AddGroupPageState extends State<AddGroupPage> {
         groupName,
         startDate,
         teacher,
-        teacherId,
+        //  teacherId,
         -1,
         weekDays.toString(),
       ));
@@ -148,7 +148,7 @@ class _AddGroupPageState extends State<AddGroupPage> {
           groupName,
           startDate,
           teacher,
-          teacherId,
+          //teacherId,
           -1,
           weekDays.toString(),
         ),

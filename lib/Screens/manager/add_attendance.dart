@@ -93,6 +93,8 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchPersons(widget.group!.id);
     });
+
+    attednaceResults = [];
   }
 
   void fetchPersons(int groupId) {
@@ -121,7 +123,6 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
   Widget build(BuildContext context) {
     final userData = UserData.of(context);
     final List<GroupPerson?>? allPersons = userData?.groupPersons;
-
     if (allPersons == null) {
       return Scaffold(
         body: Center(
@@ -129,7 +130,6 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
         ),
       );
     }
-
     final List<GroupPerson?> persons = allPersons
         .where((person) => person?.groupId == widget.group!.id)
         .toList();
@@ -155,6 +155,8 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
             onPressed: () {
               userData!.setGroupPersons!(originalList);
               _createAttendanceRecord(context, persons);
+              setState(() {});
+
               Navigator.pop(context);
             },
             child: Icon(Icons.save),
@@ -206,6 +208,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
         Repository().addStudentsAttanceAPI(sa.toJson());
       });
     });
+    setState(() {});
   }
 
   void _showSearchDialog(BuildContext context) {
@@ -294,6 +297,8 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
                           group: widget.group);
 
                       addCustomGroupPerson(customGroupPerson);
+                      // attednaceResults = [];
+                      setState(() {});
 
                       Navigator.pop(context);
                     },

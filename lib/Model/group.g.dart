@@ -15,7 +15,6 @@ Group _$GroupFromJson(Map<String, dynamic> json) => Group(
       json['teacher'] == null
           ? null
           : Person.fromJson(json['teacher'] as Map<String, dynamic>),
-      json['teacherId'] as int,
       json['status'] as int,
       json['weekDays'] as String,
     )
@@ -31,7 +30,6 @@ Group _$GroupFromJson(Map<String, dynamic> json) => Group(
 Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'teacherId': instance.teacherId,
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate.toIso8601String(),
       'weekDays': instance.weekDays,

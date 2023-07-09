@@ -79,26 +79,26 @@ Future<AppUser?> getUser(String uid) async {
 //   } catch (e) {
 //     print(e.toString());
 //     // If encountering an error, return 0
+// //     return null;
+// //   }
+// // }
+
+// Future<List<Group?>?> getGroups() async {
+//   try {
+//     var s = await rootBundle.loadString('assets/group_data.json');
+//     List<dynamic> jsonList = json.decode(s);
+//     Group dummy =
+//         Group(-1, -1, DateTime.now(), "-1", DateTime.now(), null, -1, -1, '');
+//     final List<Group?> groups = jsonList.map((info) {
+//       dummy = Group.fromJson(info);
+
+//       return dummy;
+//     }).toList();
+
+//     return groups.toList();
+//   } catch (e) {
+//     print(e.toString());
+//     // If encountering an error, return 0
 //     return null;
 //   }
 // }
-
-Future<List<Group?>?> getGroups() async {
-  try {
-    var s = await rootBundle.loadString('assets/group_data.json');
-    List<dynamic> jsonList = json.decode(s);
-    Group dummy =
-        Group(-1, -1, DateTime.now(), "-1", DateTime.now(), null, -1, -1, '');
-    final List<Group?> groups = jsonList.map((info) {
-      dummy = Group.fromJson(info);
-
-      return dummy;
-    }).toList();
-
-    return groups.toList();
-  } catch (e) {
-    print(e.toString());
-    // If encountering an error, return 0
-    return null;
-  }
-}

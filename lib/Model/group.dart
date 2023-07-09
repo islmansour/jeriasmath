@@ -11,7 +11,7 @@ part 'group.g.dart';
 class Group {
   int id;
   String name;
-  int teacherId;
+  // int teacherId;
   DateTime startDate;
   DateTime endDate;
   String weekDays;
@@ -23,8 +23,15 @@ class Group {
   List<GroupEvent>? groupEvents;
   List<GroupPerson?>? groupStudents;
 
-  Group(this.id, this.type, this.endDate, this.name, this.startDate,
-      this.teacher, this.teacherId, this.status, /* this.time,*/ this.weekDays);
+  Group(
+      this.id,
+      this.type,
+      this.endDate,
+      this.name,
+      this.startDate,
+      this.teacher,
+      /*this.teacherId,*/ this.status,
+      /* this.time,*/ this.weekDays);
 
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
 

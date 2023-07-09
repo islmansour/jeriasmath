@@ -209,3 +209,7 @@ def create_sample_data():
 
 # Call the function to create sample data
 create_sample_data()
+
+
+
+{'id': 3, 'name': 'פיזיקה 5 יחידות', 'startDate': datetime.datetime(2023, 7, 5, 7, 15, 34, 582000, tzinfo=datetime.timezone.utc), 'endDate': datetime.datetime(2023, 7, 5, 7, 15, 34, 582000, tzinfo=datetime.timezone.utc), 'weekDays': '[]', 'type': 1, 'status': 1, 'createdBy': None, 'created': datetime.datetime(2023, 7, 8, 11, 28, 16, 90766, tzinfo=datetime.timezone.utc), 'lastUpdated': datetime.datetime(2023, 7, 8, 11, 28, 16, 90771, tzinfo=datetime.timezone.utc), 'lastUpdatedBy': None, 'teacher': 1}, 's

@@ -32,7 +32,6 @@ class GroupPerson {
 }
 
 List<GroupPerson> groupPersonFromJson(String str) {
-  print(str);
   return List<GroupPerson>.from(
       json.decode(str).map((x) => GroupPerson.fromJson(x)));
 }

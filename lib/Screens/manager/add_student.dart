@@ -233,6 +233,8 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
                     }
                     raiseFlashbard(context, msg: "added...");
                   }
+                } else {
+                  print('no group avaiable...');
                 }
               }
             }
