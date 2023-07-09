@@ -1,0 +1,24 @@
+{
+    "id": 1,
+    "uid": "1GQ3O31nEMaZL0FXns0vSycDBjL2",
+    "token": "example_token",
+    "active": true,
+    "contactId": 123,
+    "created_by": 456,
+    "userType": "admin",
+    "language": "he",
+    "admin": false,
+    "person": {
+        "id": 1,
+        "lastName": "Smith",
+        "firstName": "John",
+        "startDate": "2022-01-01T00:00:00Z",
+        "status": 1,
+        "phone": "+1 123-456-7890",
+        "email": "john.smith@example.com",
+        "parentPhone1": "+1 987-654-3210",
+        "parentPhone2": "",
+        "dob": "1990-05-15T00:00:00Z",
+        "userId": "jsmith"
+    }
+}

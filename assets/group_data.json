@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "name": "Math Group",
+        "teacherId": "T123",
+        "startDate": "2023-07-01T09:00:00Z",
+        "endDate": "2023-12-31T15:00:00Z",
+        "weekDays": "Monday, Wednesday, Friday",
+        "type": "Regular",
+        "status": "Active",
+        "time": "14:00:00"
+    },
+    {
+        "id": 2,
+        "name": "English Group",
+        "teacherId": "T456",
+        "startDate": "2023-07-05T10:00:00Z",
+        "endDate": "2023-12-31T16:00:00Z",
+        "weekDays": "Tuesday, Thursday",
+        "type": "Regular",
+        "status": "Active",
+        "time": "16:30:00"
+    },
+    {
+        "id": 3,
+        "name": "Science Group",
+        "teacherId": "T789",
+        "startDate": "2023-07-10T13:00:00Z",
+        "endDate": "2023-12-31T18:00:00Z",
+        "weekDays": "Monday, Wednesday, Friday",
+        "type": "Regular",
+        "status": "Active",
+        "time": "15:00:00"
+    },
+    {
+        "id": 4,
+        "name": "History Group",
+        "teacherId": "T123",
+        "startDate": "2023-07-02T11:00:00Z",
+        "endDate": "2023-12-31T17:00:00Z",
+        "weekDays": "Tuesday, Thursday",
+        "type": "Regular",
+        "status": "Active",
+        "time": "18:00:00"
+    },
+    {
+        "id": 5,
+        "name": "Art Group",
+        "teacherId": "T456",
+        "startDate": "2023-07-06T14:00:00Z",
+        "endDate": "2023-12-31T19:00:00Z",
+        "weekDays": "Monday, Wednesday, Friday",
+        "type": "Regular",
+        "status": "Active",
+        "time": "13:30:00"
+    }
+]

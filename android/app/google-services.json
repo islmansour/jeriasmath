@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "507056902272",
+    "project_id": "jeriasmath",
+    "storage_bucket": "jeriasmath.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507056902272:android:60fbf209365aa517355665",
+        "android_client_info": {
+          "package_name": "com.example.jerias_math"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507056902272-mq0gsrq9i33vat62r5ueun8toghi2092.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMUtnwRpF3KSEwvefKkGWsZ7MlwaHUkS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507056902272-mq0gsrq9i33vat62r5ueun8toghi2092.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "507056902272-hugcgtm1pfblp51qo8mhjvfgkkenu9r5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "arabapp.jeriasmath.il"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
