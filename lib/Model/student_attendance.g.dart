@@ -15,8 +15,8 @@ StudentAttendance _$StudentAttendanceFromJson(Map<String, dynamic> json) =>
       lastUpdatedBy: json['lastUpdatedBy'] as int,
       status: json['status'] as int,
       student: Person.fromJson(json['student'] as Map<String, dynamic>),
-    )..groupEvent =
-        GroupEvent.fromJson(json['groupEvent'] as Map<String, dynamic>);
+    )..groupEvent = const GroupEventConverter()
+        .fromJson(json['groupEvent'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$StudentAttendanceToJson(StudentAttendance instance) =>
     <String, dynamic>{
@@ -26,6 +26,6 @@ Map<String, dynamic> _$StudentAttendanceToJson(StudentAttendance instance) =>
       'lastUpdated': instance.lastUpdated.toIso8601String(),
       'lastUpdatedBy': instance.lastUpdatedBy,
       'status': instance.status,
-      'groupEvent': instance.groupEvent,
+      'groupEvent': const GroupEventConverter().toJson(instance.groupEvent),
       'student': instance.student,
     };

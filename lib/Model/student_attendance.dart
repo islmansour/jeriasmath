@@ -17,7 +17,9 @@ class StudentAttendance {
   int status; //LOV ATTENDED, DID NOT ATTEND, FREE
 
   @JsonKey(includeFromJson: true, includeToJson: true)
+  @GroupEventConverter()
   late GroupEvent groupEvent;
+  @JsonKey(includeFromJson: true, includeToJson: true)
   Person student;
 
   set setGroupEvent(GroupEvent ge) {
@@ -52,6 +54,21 @@ class StudentAttendance {
       return student.toJson();
     }
     return {};
+  }
+}
+
+class GroupEventConverter
+    implements JsonConverter<GroupEvent, Map<String, dynamic>> {
+  const GroupEventConverter();
+
+  @override
+  GroupEvent fromJson(Map<String, dynamic> json) {
+    return GroupEvent.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic> toJson(GroupEvent groupEvent) {
+    return groupEvent.toJson();
   }
 }
 

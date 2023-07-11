@@ -3,11 +3,18 @@ import 'package:jerias_math/Model/group_event.dart';
 import 'package:jerias_math/Model/student_attendance.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 
-class EventStudentAttendanceListPage extends StatelessWidget {
+class EventStudentAttendanceListPage extends StatefulWidget {
   final GroupEvent? groupEvent;
 
   const EventStudentAttendanceListPage(this.groupEvent, {super.key});
 
+  @override
+  State<EventStudentAttendanceListPage> createState() =>
+      _EventStudentAttendanceListPageState();
+}
+
+class _EventStudentAttendanceListPageState
+    extends State<EventStudentAttendanceListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +23,7 @@ class EventStudentAttendanceListPage extends StatelessWidget {
         //    title: Text(LocaleKeys.AlbertName.tr()),
       ),
       body: FutureBuilder<List<StudentAttendance?>?>(
-        future: Repository().getEventStudentsAttanceAPI(groupEvent!),
+        future: Repository().getEventStudentsAttanceAPI(widget.groupEvent!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -41,12 +48,23 @@ class EventStudentAttendanceListPage extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 8.0),
                   child: ListTile(
+                    leading:
+                        _buildAttendanceIcon(studentAttendance?.status ?? 0),
                     title: Text(
-                        ' ${studentAttendance?.student.firstName ?? ""} ${studentAttendance?.student.lastName ?? ""}'),
+                      '${studentAttendance?.student.firstName ?? ""} ${studentAttendance?.student.lastName ?? ""}',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     subtitle: Text(
-                        'Status: ${getStatusText(studentAttendance?.status ?? 0)}'),
+                      'Status: ${getStatusText(studentAttendance?.status ?? 0)}',
+                    ),
+                    //trailing: Icon(Icons.arrow_forward),
                     onTap: () {
-                      // Handle onTap event
+                      setState(() {
+                        studentAttendance?.status =
+                            (studentAttendance.status + 1) % 3;
+                        Repository()
+                            .addStudentsAttanceAPI(studentAttendance!.toJson());
+                      });
                     },
                   ),
                 );
@@ -59,6 +77,34 @@ class EventStudentAttendanceListPage extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  Widget _buildAttendanceIcon(int status) {
+    IconData iconData;
+    Color iconColor;
+
+    switch (status) {
+      case 0:
+        iconData = Icons.close;
+        iconColor = Colors.red;
+        break;
+      case 1:
+        iconData = Icons.check;
+        iconColor = Colors.green;
+        break;
+      case 2:
+        iconData = Icons.info;
+        iconColor = Colors.blue;
+        break;
+      default:
+        iconData = Icons.error;
+        iconColor = Colors.grey;
+    }
+
+    return Icon(
+      iconData,
+      color: iconColor,
     );
   }
 

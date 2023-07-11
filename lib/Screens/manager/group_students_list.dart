@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Model/person_group.dart';
 import 'package:jerias_math/Screens/manager/add_student.dart';
-import 'package:jerias_math/Screens/manager/manager_student_card.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/main.dart';
+import 'package:jerias_math/Screens/manager/manager_student_card.dart';
 
 class GroupPersonsList extends StatefulWidget {
   final Group? group;
@@ -90,7 +90,7 @@ class _GroupPersonsListState extends State<GroupPersonsList> {
             return ListView.builder(
               itemCount: groupStudents.length,
               itemBuilder: (context, index) {
-                return mgrStudentCard(student: groupStudents[index]!.student);
+                return MgrStudentCard(student: groupStudents[index]!.student);
               },
             );
           }

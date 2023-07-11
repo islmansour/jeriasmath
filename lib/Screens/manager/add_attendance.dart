@@ -7,6 +7,73 @@ import 'package:jerias_math/Model/student_attendance.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/main.dart';
 
+// class CustomStudentCard extends StatefulWidget {
+//   final Person? student;
+//   final int studentIndex;
+
+//   const CustomStudentCard({
+//     Key? key,
+//     required this.student,
+//     required this.studentIndex,
+//   }) : super(key: key);
+
+//   @override
+//   _CustomStudentCardState createState() => _CustomStudentCardState();
+// }
+
+// class _CustomStudentCardState extends State<CustomStudentCard> {
+//   bool isChecked = false;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final userData = UserData.of(context);
+//     return Card(
+//       elevation: 1.0,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(8.0),
+//       ),
+//       child: ListTile(
+//         leading: CircleAvatar(
+//           backgroundColor: Colors.green,
+//           child: Text(
+//             '${widget.studentIndex}',
+//             style: const TextStyle(
+//               color: Colors.white,
+//               fontWeight: FontWeight.bold,
+//             ),
+//           ),
+//         ),
+//         title: Text(
+//           '${widget.student!.firstName} ${widget.student!.lastName}',
+//         ),
+//         trailing: Checkbox(
+//           value: isChecked,
+//           onChanged: (value) {
+//             setState(() {
+//               isChecked = value ?? false;
+//               if (isChecked) {
+//                 attednaceResults.add(StudentAttendance(
+//                     created: DateTime.now(),
+//                     createdBy: userData!.user.person!.id!,
+//                     id: -1,
+//                     lastUpdated: DateTime.now(),
+//                     lastUpdatedBy: userData.user.contactId!,
+//                     status: 1,
+//                     student: widget.student!));
+//               } else {
+//                 attednaceResults.removeWhere(
+//                     (element) => element!.student.id == widget.student!.id);
+//               }
+//             });
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// List<GroupPerson?>? originalList;
+// List<StudentAttendance?> attednaceResults = [];
 class CustomStudentCard extends StatefulWidget {
   final Person? student;
   final int studentIndex;
@@ -32,40 +99,68 @@ class _CustomStudentCardState extends State<CustomStudentCard> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.green,
-          child: Text(
-            '${widget.studentIndex}',
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            isChecked = !isChecked;
+            if (isChecked) {
+              attednaceResults.add(StudentAttendance(
+                created: DateTime.now(),
+                createdBy: userData!.user.person!.id!,
+                id: -1,
+                lastUpdated: DateTime.now(),
+                lastUpdatedBy: userData.user.contactId!,
+                status: 1,
+                student: widget.student!,
+              ));
+            } else {
+              attednaceResults.removeWhere(
+                (element) => element!.student.id == widget.student!.id,
+              );
+            }
+          });
+        },
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.green,
+            child: Text(
+              '${widget.studentIndex}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          title: Text(
+            '${widget.student!.firstName} ${widget.student!.lastName}',
             style: const TextStyle(
-              color: Colors.white,
+              fontSize: 16.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
-        title: Text(
-          '${widget.student!.firstName} ${widget.student!.lastName}',
-        ),
-        trailing: Checkbox(
-          value: isChecked,
-          onChanged: (value) {
-            setState(() {
-              isChecked = value ?? false;
-              if (isChecked) {
-                attednaceResults.add(StudentAttendance(
+          trailing: Checkbox(
+            value: isChecked,
+            onChanged: (value) {
+              setState(() {
+                isChecked = value ?? false;
+                if (isChecked) {
+                  attednaceResults.add(StudentAttendance(
                     created: DateTime.now(),
                     createdBy: userData!.user.person!.id!,
                     id: -1,
                     lastUpdated: DateTime.now(),
                     lastUpdatedBy: userData.user.contactId!,
                     status: 1,
-                    student: widget.student!));
-              } else {
-                attednaceResults.removeWhere(
-                    (element) => element!.student.id == widget.student!.id);
-              }
-            });
-          },
+                    student: widget.student!,
+                  ));
+                } else {
+                  attednaceResults.removeWhere(
+                    (element) => element!.student.id == widget.student!.id,
+                  );
+                }
+              });
+            },
+          ),
         ),
       ),
     );
