@@ -1,4 +1,5 @@
 import 'package:jerias_math/Model/group.dart';
+import 'package:jerias_math/Model/person.dart';
 import 'dart:convert';
 //flutter packages pub run build_runner build
 import 'package:json_annotation/json_annotation.dart';
@@ -8,14 +9,14 @@ part 'group_event.g.dart';
 @JsonSerializable()
 class GroupEvent {
   int? id;
-  int? createdBy;
   DateTime? created;
   DateTime? lastUpdated;
-  int? lastUpdatedBy;
   int? status;
 
   @JsonKey(includeFromJson: true, includeToJson: true)
   Group? group;
+  Person? createdBy;
+  Person? lastUpdatedBy;
 
   GroupEvent(this.created, this.createdBy, this.group, this.id,
       this.lastUpdated, this.lastUpdatedBy, this.status);

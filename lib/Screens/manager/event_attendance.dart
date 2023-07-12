@@ -1,7 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:jerias_math/Model/group_event.dart';
 import 'package:jerias_math/Model/student_attendance.dart';
 import 'package:jerias_math/api/django_server_api.dart';
+import 'package:jerias_math/l10n/locale_keys.g.dart';
 
 class EventStudentAttendanceListPage extends StatefulWidget {
   final GroupEvent? groupEvent;
@@ -20,7 +23,56 @@ class _EventStudentAttendanceListPageState
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        //    title: Text(LocaleKeys.AlbertName.tr()),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              // width: MediaQuery.of(context).size.width * 0.9,
+              child:
+                  // Expanded(
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text(
+                  //         DateFormat('EEEE')
+                  //             .format(widget.groupEvent!.created!),
+                  //         style: const TextStyle(
+                  //             fontWeight: FontWeight.bold, fontSize: 18),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    DateFormat('dd/MM/yy').format(widget.groupEvent!.created!),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ],
+              ),
+
+              // Expanded(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         DateFormat('hh:mm a')
+              //             .format(widget.groupEvent!.created!),
+              //         style: const TextStyle(
+              //             fontWeight: FontWeight.bold, fontSize: 18),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ),
+            Text(
+              widget.groupEvent!.group!.name,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
       ),
       body: FutureBuilder<List<StudentAttendance?>?>(
         future: Repository().getEventStudentsAttanceAPI(widget.groupEvent!),
@@ -52,10 +104,10 @@ class _EventStudentAttendanceListPageState
                         _buildAttendanceIcon(studentAttendance?.status ?? 0),
                     title: Text(
                       '${studentAttendance?.student.firstName ?? ""} ${studentAttendance?.student.lastName ?? ""}',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      'Status: ${getStatusText(studentAttendance?.status ?? 0)}',
+                      '${getStatusText(studentAttendance?.status ?? 0)}',
                     ),
                     //trailing: Icon(Icons.arrow_forward),
                     onTap: () {
@@ -94,7 +146,7 @@ class _EventStudentAttendanceListPageState
         iconColor = Colors.green;
         break;
       case 2:
-        iconData = Icons.info;
+        iconData = Icons.recycling;
         iconColor = Colors.blue;
         break;
       default:
@@ -102,9 +154,12 @@ class _EventStudentAttendanceListPageState
         iconColor = Colors.grey;
     }
 
-    return Icon(
-      iconData,
-      color: iconColor,
+    return CircleAvatar(
+      backgroundColor: iconColor,
+      child: Icon(
+        iconData,
+        color: Colors.white,
+      ),
     );
   }
 
@@ -112,11 +167,11 @@ class _EventStudentAttendanceListPageState
     // Implement your logic to convert status code to text
     // For example:
     if (status == 1) {
-      return 'Attended';
+      return LocaleKeys.attended.tr();
     } else if (status == 0) {
-      return 'Did Not Attend';
+      return LocaleKeys.notAttended.tr();
     } else if (status == 2) {
-      return 'Free';
+      return LocaleKeys.free.tr();
     } else {
       return 'Unknown';
     }

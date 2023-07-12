@@ -26,5 +26,18 @@
   "endDate": "תאריך סיום",
   "groupDetails": "נתוני קבוצה",
   "clear": "נקה הכל",
-  "notSet": "לא הוגדר"
+  "notSet": "לא הוגדר",
+  "edit": "עריכה",
+  "meetings": "מפגשים",
+  "attended": "נוכח",
+  "notAttended": "נעדר",
+  "free": "חינם",
+  "status": "מצב",
+  "price": "מחיר",
+  "create": "נוצר ב",
+  "maxAttendance": "מפגשים",
+  "lastUpdated": "עודכן ב",
+  "paid": "שולם",
+  "actualPayment": "שולם בפועל",
+  "nodata": "לא נמצאו נתונים"
 }

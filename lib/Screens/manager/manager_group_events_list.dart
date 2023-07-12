@@ -41,7 +41,7 @@ class _ManagerGroupEventListState extends State<ManagerGroupEventList> {
         future: Repository().getGroupEventsAPI(widget.group),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {

@@ -76,7 +76,7 @@ class _GroupPersonsListState extends State<GroupPersonsList> {
         future: Repository().getGroupPersonsAPI(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
@@ -96,13 +96,6 @@ class _GroupPersonsListState extends State<GroupPersonsList> {
           }
         },
       ),
-      // ListView.builder(
-      //   itemCount: persons.length,
-      //   itemBuilder: (context, index) {
-      //     final person = persons[index];
-      //     return mgrStudentCard(student: person!.student);
-      //   },
-      // ),
     );
   }
 }

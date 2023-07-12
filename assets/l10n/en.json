@@ -26,5 +26,18 @@
   "startDate": "Start Date",
   "endDate": "End Date",
   "clear": "Clear all",
-  "notSet": "Not Set"
+  "notSet": "Not Set",
+  "edit": "Edit",
+  "meetings": "Meetings",
+  "attended": "Attended",
+  "notAttended": "Absent",
+  "free": "Free",
+  "status": "Status",
+  "price": "Price",
+  "create": "Created",
+  "maxAttendance": "Max Att.",
+  "lastUpdated": "Updated",
+  "actualPayment": "Actual Payments",
+  "paid": "Paid",
+  "nodata": "No data found"
 }

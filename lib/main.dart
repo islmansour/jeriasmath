@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Model/group_event.dart';
+import 'package:jerias_math/Model/lookup_table.dart';
 import 'package:jerias_math/Model/person.dart';
 import 'package:jerias_math/Model/person_group.dart';
 import 'package:jerias_math/Screens/manager/add_group.dart';
@@ -36,6 +37,7 @@ List<Group?>? _groups;
 List<GroupPerson?>? _groupPersons;
 List<Person?>? _persons;
 List<GroupEvent?>? _groupEvents;
+List<LookupTable?>? _lookupTable;
 
 Future<bool?> autologin() async {
   user = await FirebaseAuth.instance.currentUser;
@@ -46,10 +48,12 @@ Future<bool?> autologin() async {
 
 class UserData extends InheritedWidget {
   final AppUser user;
+  final List<LookupTable?>? lookupTable;
   final List<Group?>? groups;
   final List<GroupPerson?>? groupPersons;
   final List<Person?>? persons;
   final List<GroupEvent?>? groupEvents;
+  final Function? getLookupTable;
   final Function? setGroups;
   final Function? setPersons;
   final Function? setGroupPersons;
@@ -63,6 +67,7 @@ class UserData extends InheritedWidget {
       required this.user,
       required Widget child,
       this.groups,
+      this.lookupTable,
       this.setGroups,
       this.setPersons,
       this.setGroupPersons,
@@ -71,6 +76,7 @@ class UserData extends InheritedWidget {
       this.groupEvents,
       this.addGroupPerson,
       this.getGroupEvents,
+      this.getLookupTable,
       this.groupPersons})
       : super(child: child);
 
@@ -92,6 +98,8 @@ void main() async {
   if (user != null) {
     countryCode = (await getUser(user!.uid))?.language;
     appUser = await getUser(user!.uid);
+    _lookupTable =
+        (await Repository().getLookupTableAPI())!.cast<LookupTable?>();
     if (appUser != null && appUser?.userType == "admin") {
       _persons = (await Repository().getPersonsAPI())!.cast<Person?>();
       _groups = (await Repository().getGroupsAPI())!.cast<Group?>();
@@ -185,6 +193,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void getLookupTable(String type, String lang) {}
   // For handling notification when the app is in terminated state
   checkForInitialMessage() async {
     await Firebase.initializeApp();
@@ -275,6 +284,7 @@ class _MyAppState extends State<MyApp> {
       persons: _persons,
       groupPersons: _groupPersons,
       groupEvents: _groupEvents,
+      lookupTable: _lookupTable,
       setGroups: setGroups,
       setGroupPersons: setGroupPersons,
       upsertGroup: upsertGroup,

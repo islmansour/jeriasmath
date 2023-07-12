@@ -7,73 +7,6 @@ import 'package:jerias_math/Model/student_attendance.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/main.dart';
 
-// class CustomStudentCard extends StatefulWidget {
-//   final Person? student;
-//   final int studentIndex;
-
-//   const CustomStudentCard({
-//     Key? key,
-//     required this.student,
-//     required this.studentIndex,
-//   }) : super(key: key);
-
-//   @override
-//   _CustomStudentCardState createState() => _CustomStudentCardState();
-// }
-
-// class _CustomStudentCardState extends State<CustomStudentCard> {
-//   bool isChecked = false;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final userData = UserData.of(context);
-//     return Card(
-//       elevation: 1.0,
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(8.0),
-//       ),
-//       child: ListTile(
-//         leading: CircleAvatar(
-//           backgroundColor: Colors.green,
-//           child: Text(
-//             '${widget.studentIndex}',
-//             style: const TextStyle(
-//               color: Colors.white,
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//         ),
-//         title: Text(
-//           '${widget.student!.firstName} ${widget.student!.lastName}',
-//         ),
-//         trailing: Checkbox(
-//           value: isChecked,
-//           onChanged: (value) {
-//             setState(() {
-//               isChecked = value ?? false;
-//               if (isChecked) {
-//                 attednaceResults.add(StudentAttendance(
-//                     created: DateTime.now(),
-//                     createdBy: userData!.user.person!.id!,
-//                     id: -1,
-//                     lastUpdated: DateTime.now(),
-//                     lastUpdatedBy: userData.user.contactId!,
-//                     status: 1,
-//                     student: widget.student!));
-//               } else {
-//                 attednaceResults.removeWhere(
-//                     (element) => element!.student.id == widget.student!.id);
-//               }
-//             });
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// List<GroupPerson?>? originalList;
-// List<StudentAttendance?> attednaceResults = [];
 class CustomStudentCard extends StatefulWidget {
   final Person? student;
   final int studentIndex;
@@ -275,8 +208,8 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
   void _createAttendanceRecord(
       BuildContext contex, List<GroupPerson?>? students) {
     final userData = UserData.of(context);
-    GroupEvent ge = GroupEvent(DateTime.now(), userData!.user.person!.id,
-        widget.group, -1, DateTime.now(), userData.user.person!.id, 1);
+    GroupEvent ge = GroupEvent(DateTime.now(), userData!.user.person!,
+        widget.group, -1, DateTime.now(), userData.user.person!, 1);
     Repository().addGroupEventAPI(ge.toJson()).then((newGroupEvent) {
       // the attednaceResults now has all the people that attended the class,
       // in order to also set "not attended" to thoe who are not present. We go over the list

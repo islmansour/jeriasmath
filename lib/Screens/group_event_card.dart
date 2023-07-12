@@ -13,7 +13,7 @@ class GroupEventCard extends StatelessWidget {
     return Card(
       elevation: 2.0,
       child: ListTile(
-        title: Container(
+        title: SizedBox(
           width: MediaQuery.of(context).size.width * 0.9,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -26,7 +26,7 @@ class GroupEventCard extends StatelessWidget {
                     children: [
                       Text(
                         DateFormat('EEEE').format(groupEvent.created!),
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

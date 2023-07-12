@@ -1,35 +1,46 @@
 import 'dart:convert';
 //flutter packages pub run build_runner build
+import 'package:jerias_math/Model/account.dart';
 import 'package:jerias_math/Model/person.dart';
+import 'package:jerias_math/Model/purchase.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'payment.g.dart';
 
 @JsonSerializable()
 class Payment {
-  int id;
-  int studentId;
-  double requiredAmount;
-  double actualAmount;
-  int createdBy;
-  DateTime created;
-  DateTime lastUpdated;
-  int lastUpdatedBy;
-  int status;
+  int? id;
+  double? amount;
+  DateTime? created;
+  DateTime? lastUpdated;
+
+  String? paymentType;
+  String? chequeNumber;
+  String? chequeBank;
+  DateTime? chequeDate;
+  String? notes;
 
   @JsonKey(includeFromJson: true, includeToJson: false)
   Person? student;
+  Account? account;
+  Purchase? purchase;
+  Person? createdBy;
+  Person? lastUpdatedBy;
 
-  Payment(
-      this.created,
-      this.createdBy,
-      this.id,
-      this.actualAmount,
-      this.requiredAmount,
-      this.lastUpdated,
-      this.lastUpdatedBy,
-      this.status,
-      this.studentId);
+  Payment({
+    this.purchase,
+    this.amount,
+    this.created,
+    this.lastUpdated,
+    this.createdBy,
+    this.lastUpdatedBy,
+    this.account,
+    this.paymentType,
+    this.chequeNumber,
+    this.chequeBank,
+    this.chequeDate,
+    this.notes,
+  });
 
   factory Payment.fromJson(Map<String, dynamic> json) =>
       _$PaymentFromJson(json);

@@ -82,7 +82,10 @@ class GroupClassCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.school),
+                  const Icon(
+                    Icons.group,
+                    color: Colors.green,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -95,29 +98,35 @@ class GroupClassCard extends StatelessWidget {
                   ),
                   Icon(
                     isActive ? Icons.check_circle : Icons.cancel,
-                    color: isActive ? Colors.green : Colors.red,
+                    color: isActive ? Colors.green.shade700 : Colors.red,
                   ),
                 ],
               ),
+              // const SizedBox(height: 4),
+              // Row(
+              //   children: [
+              //     const Icon(
+              //       Icons.co_present_outlined,
+              //       color: Colors.green,
+              //     ),
+              //     const SizedBox(width: 8),
+              //     Expanded(
+              //       child: Text(
+              //         group!.teacher == null
+              //             ? ''
+              //             : '${group!.teacher!.firstName ?? ''} ${group!.teacher!.lastName ?? ''}',
+              //         style: const TextStyle(fontSize: 12),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               const SizedBox(height: 4),
               Row(
                 children: [
-                  const Icon(Icons.co_present_outlined),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      group!.teacher == null
-                          ? ''
-                          : '${group!.teacher!.firstName ?? ''} ${group!.teacher!.lastName ?? ''}',
-                      style: const TextStyle(fontSize: 12),
-                    ),
+                  const Icon(
+                    Icons.calendar_today,
+                    color: Colors.green,
                   ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  const Icon(Icons.calendar_today),
                   const SizedBox(width: 8),
                   Expanded(
                     child: group?.weekDays == "[]"
@@ -131,21 +140,39 @@ class GroupClassCard extends StatelessWidget {
                                     .replaceAll(']', '')
                                     .split(', ')
                                     .map((englishWeekday) =>
-                                        translateWeekday(englishWeekday))
+                                        translateWeekday(englishWeekday)
+                                            .replaceAll('יום ', ''))
                                     .join(', ') ??
                                 LocaleKeys.notSet.tr(),
                             style: const TextStyle(fontSize: 12),
                           ),
                   ),
                   const SizedBox(width: 8),
-                  const Icon(Icons.category),
+                  const Icon(
+                    Icons.co_present_outlined,
+                    color: Colors.green,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Type: ${group?.type ?? ''}',
+                      group!.teacher == null
+                          ? ''
+                          : '${group!.teacher!.firstName ?? ''} ${group!.teacher!.lastName ?? ''}',
                       style: const TextStyle(fontSize: 12),
                     ),
                   ),
+                  // const SizedBox(width: 8),
+                  // const Icon(
+                  //   Icons.category,
+                  //   color: Colors.green,
+                  // ),
+                  // const SizedBox(width: 8),
+                  // Expanded(
+                  //   child: Text(
+                  //     'Type: ${group?.type ?? ''}',
+                  //     style: const TextStyle(fontSize: 12),
+                  //   ),
+                  // ),
                 ],
               ),
             ],

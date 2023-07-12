@@ -7,27 +7,50 @@ part of 'payment.dart';
 // **************************************************************************
 
 Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
-      DateTime.parse(json['created'] as String),
-      json['createdBy'] as int,
-      json['id'] as int,
-      (json['actualAmount'] as num).toDouble(),
-      (json['requiredAmount'] as num).toDouble(),
-      DateTime.parse(json['lastUpdated'] as String),
-      json['lastUpdatedBy'] as int,
-      json['status'] as int,
-      json['studentId'] as int,
-    )..student = json['student'] == null
-        ? null
-        : Person.fromJson(json['student'] as Map<String, dynamic>);
+      purchase: json['purchase'] == null
+          ? null
+          : Purchase.fromJson(json['purchase'] as Map<String, dynamic>),
+      amount: (json['amount'] as num?)?.toDouble(),
+      created: json['created'] == null
+          ? null
+          : DateTime.parse(json['created'] as String),
+      lastUpdated: json['lastUpdated'] == null
+          ? null
+          : DateTime.parse(json['lastUpdated'] as String),
+      createdBy: json['createdBy'] == null
+          ? null
+          : Person.fromJson(json['createdBy'] as Map<String, dynamic>),
+      lastUpdatedBy: json['lastUpdatedBy'] == null
+          ? null
+          : Person.fromJson(json['lastUpdatedBy'] as Map<String, dynamic>),
+      account: json['account'] == null
+          ? null
+          : Account.fromJson(json['account'] as Map<String, dynamic>),
+      paymentType: json['paymentType'] as String?,
+      chequeNumber: json['chequeNumber'] as String?,
+      chequeBank: json['chequeBank'] as String?,
+      chequeDate: json['chequeDate'] == null
+          ? null
+          : DateTime.parse(json['chequeDate'] as String),
+      notes: json['notes'] as String?,
+    )
+      ..id = json['id'] as int?
+      ..student = json['student'] == null
+          ? null
+          : Person.fromJson(json['student'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$PaymentToJson(Payment instance) => <String, dynamic>{
       'id': instance.id,
-      'studentId': instance.studentId,
-      'requiredAmount': instance.requiredAmount,
-      'actualAmount': instance.actualAmount,
+      'amount': instance.amount,
+      'created': instance.created?.toIso8601String(),
+      'lastUpdated': instance.lastUpdated?.toIso8601String(),
+      'paymentType': instance.paymentType,
+      'chequeNumber': instance.chequeNumber,
+      'chequeBank': instance.chequeBank,
+      'chequeDate': instance.chequeDate?.toIso8601String(),
+      'notes': instance.notes,
+      'account': instance.account,
+      'purchase': instance.purchase,
       'createdBy': instance.createdBy,
-      'created': instance.created.toIso8601String(),
-      'lastUpdated': instance.lastUpdated.toIso8601String(),
       'lastUpdatedBy': instance.lastUpdatedBy,
-      'status': instance.status,
     };

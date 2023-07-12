@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Screens/manager/edit_group.dart';
 import 'package:jerias_math/Screens/manager/group_students_list.dart';
 import 'package:jerias_math/Screens/manager/manager_group_events_list.dart';
+import 'package:jerias_math/l10n/locale_keys.g.dart';
 
 class GroupDetailsPages extends StatefulWidget {
   final Group? group;
@@ -23,21 +25,21 @@ class _GroupDetailsPagesState extends State<GroupDetailsPages> {
           title: Text(widget.group!.name),
           bottom: TabBar(
             tabs: [
+              Tab(text: LocaleKeys.meetings.tr()),
               Tab(
-                text: 'Edit',
+                text: LocaleKeys.students.tr(),
               ),
-              Tab(text: 'Meetings'),
               Tab(
-                text: 'Student',
+                text: LocaleKeys.edit.tr(),
               ),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            GroupEditPage(group: widget.group),
             ManagerGroupEventList(group: widget.group),
             GroupPersonsList(group: widget.group),
+            GroupEditPage(group: widget.group),
           ],
         ),
       ),

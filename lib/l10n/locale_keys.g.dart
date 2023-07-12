@@ -29,5 +29,18 @@ abstract class  LocaleKeys {
   static const endDate = 'endDate';
   static const clear = 'clear';
   static const notSet = 'notSet';
+  static const edit = 'edit';
+  static const meetings = 'meetings';
+  static const attended = 'attended';
+  static const notAttended = 'notAttended';
+  static const free = 'free';
+  static const status = 'status';
+  static const price = 'price';
+  static const create = 'create';
+  static const maxAttendance = 'maxAttendance';
+  static const lastUpdated = 'lastUpdated';
+  static const actualPayment = 'actualPayment';
+  static const paid = 'paid';
+  static const nodata = 'nodata';
 
 }

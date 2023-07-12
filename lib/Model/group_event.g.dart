@@ -10,7 +10,9 @@ GroupEvent _$GroupEventFromJson(Map<String, dynamic> json) => GroupEvent(
       json['created'] == null
           ? null
           : DateTime.parse(json['created'] as String),
-      json['createdBy'] as int?,
+      json['createdBy'] == null
+          ? null
+          : Person.fromJson(json['createdBy'] as Map<String, dynamic>),
       json['group'] == null
           ? null
           : Group.fromJson(json['group'] as Map<String, dynamic>),
@@ -18,17 +20,19 @@ GroupEvent _$GroupEventFromJson(Map<String, dynamic> json) => GroupEvent(
       json['lastUpdated'] == null
           ? null
           : DateTime.parse(json['lastUpdated'] as String),
-      json['lastUpdatedBy'] as int?,
+      json['lastUpdatedBy'] == null
+          ? null
+          : Person.fromJson(json['lastUpdatedBy'] as Map<String, dynamic>),
       json['status'] as int?,
     );
 
 Map<String, dynamic> _$GroupEventToJson(GroupEvent instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'createdBy': instance.createdBy,
       'created': instance.created?.toIso8601String(),
       'lastUpdated': instance.lastUpdated?.toIso8601String(),
-      'lastUpdatedBy': instance.lastUpdatedBy,
       'status': instance.status,
       'group': instance.group,
+      'createdBy': instance.createdBy,
+      'lastUpdatedBy': instance.lastUpdatedBy,
     };

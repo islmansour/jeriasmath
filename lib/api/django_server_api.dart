@@ -4,8 +4,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Model/group_event.dart';
+import 'package:jerias_math/Model/lookup_table.dart';
+import 'package:jerias_math/Model/payment.dart';
 import 'package:jerias_math/Model/person.dart';
 import 'package:jerias_math/Model/person_group.dart';
+import 'package:jerias_math/Model/purchase.dart';
 import 'package:jerias_math/Model/student_attendance.dart';
 import 'dart:convert' show json, jsonEncode, utf8;
 import 'dart:async';
@@ -123,6 +126,7 @@ class ApiBaseHelper {
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 201:
+      case 200:
         var responseJson = utf8.decode(response.body.runes.toList());
         return responseJson;
       case 400:
@@ -197,6 +201,11 @@ class Repository {
     return personFromJson(response);
   }
 
+  Future<List<LookupTable?>?> getLookupTableAPI() async {
+    final response = await _helper.get("/lookup-table-data");
+    return lookupTableFromJson(response);
+  }
+
   Future<List<GroupPerson?>?> getGroupPersonsAPI() async {
     final response = await _helper.get("/group_people");
     return groupPersonFromJson(response);
@@ -254,6 +263,29 @@ class Repository {
         await _helper.get("/group-event/search/", queryParams: queryParams);
 
     return groupEventFromJson(response);
+  }
+
+  Future<List<Purchase?>?> getStudentPurchasesAPI(Person? student,
+      {DateTime? from, DateTime? to}) async {
+    Map<String, dynamic> queryParams = {
+      'student_id': student!.id.toString(),
+    };
+
+    final response =
+        await _helper.get("/purchases/search/", queryParams: queryParams);
+    return purchaseFromJson(response);
+  }
+
+  Future<List<Payment?>?> getPurchasePayments(Purchase? purchase,
+      {DateTime? from, DateTime? to}) async {
+    // Map<String, dynamic> queryParams = {
+    //   'purchase_id': purchase!.id.toString(),
+    // };
+
+    final response =
+        await _helper.get("/purchase/${purchase!.id.toString()}/payments/");
+
+    return paymentFromJson(response);
   }
 
   Future<GroupEvent?> addGroupEventAPI(var record) async {

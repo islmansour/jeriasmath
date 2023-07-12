@@ -39,7 +39,7 @@ class _ManagerSettingsPageState extends State<ManagerSettingsPage> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 80),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -53,29 +53,29 @@ class _ManagerSettingsPageState extends State<ManagerSettingsPage> {
               CustomButton(title: LocaleKeys.teachers.tr(), onPressed: () {}),
             ],
           ),
-          const SizedBox(height: 10),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // CustomButton(title: 'Button 4'),
-              // CustomButton(title: 'Button 5'),
-              // CustomButton(title: 'Button 6'),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 5, // Replace with the actual number of cards
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 2,
-                  child: ListTile(
-                    title: Text('Card ${index + 1}'),
-                  ),
-                );
-              },
-            ),
-          ),
+          // const SizedBox(height: 10),
+          // const Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     // CustomButton(title: 'Button 4'),
+          //     // CustomButton(title: 'Button 5'),
+          //     // CustomButton(title: 'Button 6'),
+          //   ],
+          // ),
+          // const SizedBox(height: 20),
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: 5, // Replace with the actual number of cards
+          //     itemBuilder: (context, index) {
+          //       return Card(
+          //         elevation: 2,
+          //         child: ListTile(
+          //           title: Text('Card ${index + 1}'),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
