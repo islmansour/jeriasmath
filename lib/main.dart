@@ -55,27 +55,23 @@ class UserData extends InheritedWidget {
   final List<GroupEvent?>? groupEvents;
   final Function? getLookupTable;
   final Function? setGroups;
-  final Function? setPersons;
   final Function? setGroupPersons;
   final Function? upsertGroup;
-  final Function? getGroupEvents;
 
   final Function? addGroupPerson;
 
-  UserData(
+  const UserData(
       {super.key,
       required this.user,
       required Widget child,
       this.groups,
       this.lookupTable,
       this.setGroups,
-      this.setPersons,
       this.setGroupPersons,
       this.upsertGroup,
       this.persons,
       this.groupEvents,
       this.addGroupPerson,
-      this.getGroupEvents,
       this.getLookupTable,
       this.groupPersons})
       : super(child: child);
@@ -119,7 +115,7 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -143,14 +139,6 @@ class _MyAppState extends State<MyApp> {
           if (element!.id == group.id) element = group;
         }
       }
-    });
-  }
-
-  void getGroupEvents(Group group, {DateTime? fromDate, DateTime? toDate}) {
-    Repository().getGroupEventsAPI(group).then((value) {
-      setState(() {
-        _groupEvents = value;
-      });
     });
   }
 
@@ -289,7 +277,6 @@ class _MyAppState extends State<MyApp> {
       setGroupPersons: setGroupPersons,
       upsertGroup: upsertGroup,
       addGroupPerson: addGroupPerson,
-      getGroupEvents: getGroupEvents,
       child: MaterialApp(
         initialRoute: '/',
         routes: {
@@ -316,7 +303,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage();
+  const MyHomePage();
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -346,38 +333,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //   title: Text(LocaleKeys.AlbertName.tr()),
       // ),
       body: managerPages[_currentIndex],
-      // Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       Text(
-      //         'You have pushed the button this many times:' +
-      //             LocaleKeys.AlbertName.tr() +
-      //             '  ',
-      //       ),
-      //       Text(
-      //         '$_counter',
-      //         style: Theme.of(context).textTheme.headlineMedium,
-      //       ),
-      //       FutureBuilder<List<GroupPerson?>?>(
-      //         future: getGroupPersonsByStudent(1),
-      //         builder: (BuildContext context,
-      //             AsyncSnapshot<List<GroupPerson?>?> snapshot) {
-      //           if (snapshot.connectionState == ConnectionState.waiting) {
-      //             // While waiting for the future to complete
-      //             return const CircularProgressIndicator();
-      //           } else if (snapshot.hasError) {
-      //             // If an error occurred during the future execution
-      //             return Text('Error: ${snapshot.error}');
-      //           } else {
-      //             // When the future has completed successfully
-      //             return Text('Fetched Data: ${snapshot.data?.length}');
-      //           }
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // ),
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (int index) {

@@ -320,9 +320,6 @@ class Repository {
     var response = await _helper.get("/get-student-attendance-by-group-event/",
         queryParams: queryParams);
 
-    // var responseData = jsonDecode(response);
-    // var studentsAttance = responseData['student_attendance'];
-    // print(studentsAttance);
     return studentAttendanceFromJson(response);
   }
 }

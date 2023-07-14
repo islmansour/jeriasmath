@@ -20,6 +20,10 @@ class GroupPerson {
   @JsonKey(includeFromJson: true, includeToJson: false)
   Group? group;
   Person? student;
+  @override
+  String toString() {
+    return '${group!.name}';
+  }
 
   GroupPerson(this.created, this.createdBy, this.groupId, this.lastUpdated,
       this.lastUpdatedBy, this.status, this.studentId, this.id,

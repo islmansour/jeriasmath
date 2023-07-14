@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/payment.dart';
 
 import 'package:jerias_math/Model/purchase.dart';
 import 'package:jerias_math/Screens/manager/payment_card.dart';
 import 'package:jerias_math/api/django_server_api.dart';
+import 'package:jerias_math/l10n/locale_keys.g.dart';
 
 class PurchasePaymentsList extends StatelessWidget {
   Purchase? purchase;
@@ -14,7 +16,7 @@ class PurchasePaymentsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payments'),
+        title: Text(LocaleKeys.payments.tr()),
       ),
       body: FutureBuilder<List<Payment?>?>(
         future: Repository().getPurchasePayments(purchase),
@@ -33,7 +35,10 @@ class PurchasePaymentsList extends StatelessWidget {
               },
             );
           } else {
-            return Center(child: Text('No purchases available'));
+            return Center(
+                child: Text(
+              LocaleKeys.nodata.tr(),
+            ));
           }
         },
       ),

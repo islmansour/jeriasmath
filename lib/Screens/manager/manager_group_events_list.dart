@@ -25,6 +25,7 @@ class _ManagerGroupEventListState extends State<ManagerGroupEventList> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -34,6 +35,12 @@ class _ManagerGroupEventListState extends State<ManagerGroupEventList> {
               builder: (context) => AddAttendancePage(group: widget.group),
             ),
           );
+
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(
+          //       builder: (context) => AddAttendancePage(group: widget.group)),
+          // );
         },
         child: const Icon(Icons.add),
       ),

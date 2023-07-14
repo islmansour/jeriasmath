@@ -10,11 +10,11 @@ part 'payment.g.dart';
 @JsonSerializable()
 class Payment {
   int? id;
-  double? amount;
+  dynamic? amount;
   DateTime? created;
   DateTime? lastUpdated;
 
-  String? paymentType;
+  int? paymentType;
   String? chequeNumber;
   String? chequeBank;
   DateTime? chequeDate;

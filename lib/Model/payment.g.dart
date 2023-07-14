@@ -10,7 +10,7 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
       purchase: json['purchase'] == null
           ? null
           : Purchase.fromJson(json['purchase'] as Map<String, dynamic>),
-      amount: (json['amount'] as num?)?.toDouble(),
+      amount: json['amount'],
       created: json['created'] == null
           ? null
           : DateTime.parse(json['created'] as String),
@@ -26,7 +26,7 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
       account: json['account'] == null
           ? null
           : Account.fromJson(json['account'] as Map<String, dynamic>),
-      paymentType: json['paymentType'] as String?,
+      paymentType: json['paymentType'] as int?,
       chequeNumber: json['chequeNumber'] as String?,
       chequeBank: json['chequeBank'] as String?,
       chequeDate: json['chequeDate'] == null

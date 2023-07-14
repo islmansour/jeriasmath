@@ -41,6 +41,20 @@ abstract class  LocaleKeys {
   static const lastUpdated = 'lastUpdated';
   static const actualPayment = 'actualPayment';
   static const paid = 'paid';
+  static const purchases = 'purchases';
+  static const paymentMethod = 'paymentMethod';
+  static const createdBy = 'createdBy';
+  static const payments = 'payments';
+  static const addStudent = 'addStudent';
+  static const lastName = 'lastName';
+  static const firstName = 'firstName';
+  static const parentPhone = 'parentPhone';
+  static const phone = 'phone';
+  static const newStudent = 'newStudent';
+  static const studentExists = 'studentExists';
+  static const phoneTooltip = 'phoneTooltip';
+  static const errorPhone = 'errorPhone';
+  static const existsInGroups = 'existsInGroups';
   static const nodata = 'nodata';
 
 }

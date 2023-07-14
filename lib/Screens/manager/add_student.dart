@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Model/person.dart';
 import 'package:jerias_math/Model/person_group.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/flash_bar.dart';
+import 'package:jerias_math/l10n/locale_keys.g.dart';
 import 'package:jerias_math/main.dart';
 
 class AddStudentFormPage extends StatefulWidget {
@@ -18,6 +21,9 @@ class AddStudentFormPage extends StatefulWidget {
 
 class _AddStudentFormPageState extends State<AddStudentFormPage> {
   int currentStep = 0;
+  String errorPhone = "";
+  bool studentExists = false;
+  List<GroupPerson?> relatedGroups = [];
   late TextEditingController lastNameController;
   late TextEditingController firstNameController;
   late TextEditingController startDateController;
@@ -65,57 +71,125 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
 
     List<Step> steps = [
       Step(
-        title: const Text('Step 1'),
+        title: Text(LocaleKeys.add.tr()),
         content: Column(
           children: [
             TextFormField(
-              controller: lastNameController,
-              decoration: const InputDecoration(labelText: 'Last Name'),
+              decoration: InputDecoration(
+                errorText: errorPhone == "" ? null : errorPhone,
+                hintStyle: const TextStyle(fontSize: 12),
+                hintText: LocaleKeys.phoneTooltip.tr(),
+              ),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(10),
+                //  FilteringTextInputFormatter.allow(RegExp(r'^05\d{0,8}')),
+              ],
+              onChanged: (value) {
+                try {
+                  if (value.length == 2) {
+                    setState(() {
+                      value.substring(0, 2) == "05"
+                          ? errorPhone = ""
+                          : errorPhone = LocaleKeys.errorPhone.tr();
+                    });
+                  }
+                  if (value.length == 10) {
+                    setState(() {
+                      value.substring(0, 2) == "05"
+                          ? errorPhone = ""
+                          : errorPhone = LocaleKeys.errorPhone.tr();
+                    });
+                    Person? tmp = userData!.persons!
+                        .where((element) => element!.phone == value)
+                        .first;
+                    if (tmp != null) {
+                      setState(() {
+                        studentExists = true;
+                        lastNameController.text = tmp.lastName!;
+                        firstNameController.text = tmp.firstName!;
+                        parentPhone1Controller.text = tmp.parentPhone1!;
+                        parentPhone2Controller.text = tmp.parentPhone2!;
+                        relatedGroups = userData.groupPersons!
+                            .where(
+                                (element) => element!.student!.phone == value)
+                            .toList();
+                      });
+                    } else {
+                      studentExists = false;
+                    }
+                  }
+                } catch (e) {}
+              },
+              controller: phoneController,
+              //   decoration: InputDecoration(labelText: LocaleKeys.phone.tr()),
             ),
-            TextFormField(
-              controller: firstNameController,
-              decoration: const InputDecoration(labelText: 'First Name'),
-            ),
-            TextFormField(
-              controller: startDateController,
-              decoration: const InputDecoration(labelText: 'Start Date'),
-            ),
-            TextFormField(
-              controller: statusController,
-              decoration: const InputDecoration(labelText: 'Status'),
-            ),
+
+            // TextFormField(
+            //   controller: startDateController,
+            //   decoration:  InputDecoration(labelText: 'Start Date'),
+            // ),
+            // TextFormField(
+            //   controller: statusController,
+            //   decoration:  InputDecoration(labelText: 'Status'),
+            // ),
           ],
         ),
         isActive: true,
       ),
       Step(
-        title: const Text('Step 2'),
+        title: Text(
+          studentExists == true
+              ? LocaleKeys.studentExists.tr()
+              : LocaleKeys.newStudent.tr(),
+          style: TextStyle(
+              color: studentExists == true ? Colors.red : Colors.blue),
+        ),
         content: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (studentExists == true)
+              Text(
+                "${LocaleKeys.existsInGroups.tr()}",
+                style: TextStyle(color: Colors.red.shade400),
+              ),
+            if (studentExists == true)
+              Text(
+                  '${relatedGroups.toString().replaceAll("[", "").replaceAll("]", "")}'),
             TextFormField(
-              controller: phoneController,
-              decoration: const InputDecoration(labelText: 'Phone'),
+              controller: lastNameController,
+              decoration: InputDecoration(labelText: LocaleKeys.lastName.tr()),
             ),
             TextFormField(
-              controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              controller: firstNameController,
+              decoration: InputDecoration(labelText: LocaleKeys.firstName.tr()),
             ),
-            TextFormField(
-              controller: parentPhone1Controller,
-              decoration: const InputDecoration(labelText: 'Parent Phone 1'),
-            ),
-            TextFormField(
-              controller: parentPhone2Controller,
-              decoration: const InputDecoration(labelText: 'Parent Phone 2'),
-            ),
-            TextFormField(
-              controller: dobController,
-              decoration: const InputDecoration(labelText: 'Date of Birth'),
-            ),
-            TextFormField(
-              controller: userIdController,
-              decoration: const InputDecoration(labelText: 'User ID'),
-            ),
+            // TextFormField(
+            //   controller: emailController,
+            //   decoration: const InputDecoration(labelText: 'Email'),
+            // ),
+            if (studentExists == false)
+              TextFormField(
+                controller: parentPhone1Controller,
+                decoration:
+                    InputDecoration(labelText: LocaleKeys.parentPhone.tr()),
+              ),
+            if (studentExists == false)
+              TextFormField(
+                controller: parentPhone2Controller,
+                decoration:
+                    InputDecoration(labelText: LocaleKeys.parentPhone.tr()),
+              ),
+            // TextFormField(
+            //   controller: dobController,
+            //   decoration: const InputDecoration(labelText: 'Date of Birth'),
+            // ),
+            // TextFormField(
+            //   controller: userIdController,
+            //   decoration: const InputDecoration(labelText: 'User ID'),
+            // ),
           ],
         ),
         isActive: false,
@@ -123,7 +197,7 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Student Form'),
+        title: Text(LocaleKeys.addStudent.tr()),
       ),
       body: Stepper(
         currentStep: currentStep,
@@ -133,6 +207,15 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
           });
         },
         onStepContinue: () {
+          if (currentStep == 0) {
+            if (phoneController.text.length != 10) {
+              setState(() {
+                errorPhone = LocaleKeys.errorPhone.tr();
+              });
+              return;
+            }
+            ;
+          }
           setState(() {
             if (currentStep < steps.length - 1) {
               currentStep += 1;

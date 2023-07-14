@@ -21,10 +21,11 @@ class Purchase {
 
   @JsonKey(includeFromJson: true, includeToJson: true)
   Account? account;
-  Payment? payment;
+  //Payment? payment;
   Person? lastUpdatedBy;
   Person? student;
   Person? createdBy;
+  List<Payment?>? payments;
 
   Purchase({
     this.id,
@@ -38,7 +39,7 @@ class Purchase {
     this.maxAttendances,
     this.autoGenerate,
     this.account,
-    this.payment,
+    this.payments,
   });
 
   factory Purchase.fromJson(Map<String, dynamic> json) =>
