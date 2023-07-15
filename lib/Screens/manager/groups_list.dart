@@ -82,9 +82,9 @@ class GroupClassCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.group,
-                    color: Colors.green,
+                    color: Colors.green.shade700,
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -98,7 +98,7 @@ class GroupClassCard extends StatelessWidget {
                   ),
                   Icon(
                     isActive ? Icons.check_circle : Icons.cancel,
-                    color: isActive ? Colors.green.shade700 : Colors.red,
+                    color: isActive ? Colors.green : Colors.red,
                   ),
                 ],
               ),
@@ -123,9 +123,9 @@ class GroupClassCard extends StatelessWidget {
               const SizedBox(height: 4),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.calendar_today,
-                    color: Colors.green,
+                    color: Colors.green.shade700,
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -148,9 +148,9 @@ class GroupClassCard extends StatelessWidget {
                           ),
                   ),
                   const SizedBox(width: 8),
-                  const Icon(
+                  Icon(
                     Icons.co_present_outlined,
-                    color: Colors.green,
+                    color: Colors.green.shade700,
                   ),
                   const SizedBox(width: 8),
                   Expanded(

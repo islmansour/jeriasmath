@@ -8,6 +8,8 @@ import 'package:jerias_math/main.dart';
 import 'package:jerias_math/weekdays.dart';
 
 class AddGroupPage extends StatefulWidget {
+  const AddGroupPage({super.key});
+
   @override
   _AddGroupPageState createState() => _AddGroupPageState();
 }
@@ -19,14 +21,28 @@ class _AddGroupPageState extends State<AddGroupPage> {
 
   String groupName = '';
   int groupType = -1;
-  int teacherId = -1;
+  Person? teacher;
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   List<String> weekDays = [];
 
+  List<DropdownMenuItem<Person>> teacherDropdown = [];
+
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    var userData = UserData.of(context);
+    userData!.persons!.forEach(
+      (element) {
+        if (element!.type == 1) {
+          teacherDropdown.add(DropdownMenuItem<Person>(
+            value: element,
+            child: Text('${element.firstName} ${element.lastName}'),
+          ));
+        }
+      },
+    );
+
     steps = [
       Step(
         title: Text(LocaleKeys.groupDetails.tr()),
@@ -47,10 +63,14 @@ class _AddGroupPageState extends State<AddGroupPage> {
                 },
                 decoration: InputDecoration(labelText: LocaleKeys.type.tr()),
               ),
-              TextFormField(
+              DropdownButtonFormField<Person>(
+                value: teacher,
                 onChanged: (value) {
-                  teacherId = int.parse(value);
+                  setState(() {
+                    teacher = value;
+                  });
                 },
+                items: teacherDropdown,
                 decoration: InputDecoration(labelText: LocaleKeys.teacher.tr()),
               ),
             ],
@@ -96,14 +116,9 @@ class _AddGroupPageState extends State<AddGroupPage> {
               valueField: 'code',
               filterable: false,
               required: false,
-
               selectedOptionsBoxColor: Colors.transparent,
               buttonBarColor: Colors.transparent,
               selectIcon: Icons.arrow_drop_down_circle,
-              // saveButtonColor: Theme.of(context).primaryColor,
-              // checkBoxColor: Theme.of(context).primaryColorDark,
-              // cancelButtonColor: Theme.of(context).primaryColorLight,
-              //responsiveDialogSize: Size(600, 800),
               onSaved: (value) {
                 setState(() {
                   weekDays = value;
@@ -123,9 +138,7 @@ class _AddGroupPageState extends State<AddGroupPage> {
       form.save();
 
       final userData = UserData.of(context);
-      Person? teacher = userData!.persons!
-          .where((element) => element!.id == teacherId)
-          .firstOrNull;
+
       Group tmp = (Group(
         1,
         groupType,
@@ -133,12 +146,11 @@ class _AddGroupPageState extends State<AddGroupPage> {
         groupName,
         startDate,
         teacher,
-        //  teacherId,
         -1,
         weekDays.toString(),
       ));
       userData!.setGroups!(tmp);
-      // Save group data and navigate back
+
       Navigator.pop(
         context,
         Group(
@@ -148,7 +160,6 @@ class _AddGroupPageState extends State<AddGroupPage> {
           groupName,
           startDate,
           teacher,
-          //teacherId,
           -1,
           weekDays.toString(),
         ),
@@ -164,7 +175,6 @@ class _AddGroupPageState extends State<AddGroupPage> {
       ),
       body: Container(
         alignment: Alignment.topRight,
-        //padding: EdgeInsets.all(16.0),
         child: FractionallySizedBox(
           widthFactor: 0.9,
           child: Stepper(

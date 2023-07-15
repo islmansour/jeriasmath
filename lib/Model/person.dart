@@ -16,6 +16,7 @@ class Person {
   String? parentPhone1;
   String? parentPhone2;
   DateTime? dob;
+  int? type;
   final String? userId;
   Person(
       {this.dob,
@@ -28,6 +29,7 @@ class Person {
       this.phone,
       this.startDate,
       this.status,
+      this.type,
       this.userId});
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);

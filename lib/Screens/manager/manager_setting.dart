@@ -52,7 +52,7 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       // onTap: onPressed,
       onTap: () {
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => GroupPage(),

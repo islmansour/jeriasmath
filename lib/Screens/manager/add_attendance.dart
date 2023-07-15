@@ -166,7 +166,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Attendance1'),
+        title: const Text('Add Attendance1'),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -177,9 +177,9 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
             onPressed: () {
               _showSearchDialog(context);
             },
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           FloatingActionButton(
             heroTag: 'saveButton',
             onPressed: () {
@@ -189,7 +189,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
 
               Navigator.pop(context, true);
             },
-            child: Icon(Icons.save),
+            child: const Icon(Icons.save),
           ),
         ],
       ),
@@ -233,16 +233,16 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
               student: element!.student!));
         }
       });
-      attednaceResults.forEach((sa) {
+      for (var sa in attednaceResults) {
         sa!.setGroupEvent = newGroupEvent!;
         Repository().addStudentsAttanceAPI(sa.toJson());
-      });
+      }
     });
     setState(() {});
   }
 
   void _showSearchDialog(BuildContext context) {
-    TextEditingController _phoneController = TextEditingController();
+    TextEditingController phoneController = TextEditingController();
 
     showDialog(
       context: context,
@@ -257,27 +257,29 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  controller: _phoneController,
+                  controller: phoneController,
                   decoration: InputDecoration(
-                    labelText: 'Enter Student Phone',
-                    border: OutlineInputBorder(),
+                    labelText: LocaleKeys.phone.tr(),
+                    border: const OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
                     final userData = UserData.of(context);
-                    final _students = userData!.persons;
-                    String enteredPhone = _phoneController.text;
+                    final students = userData!.persons;
+                    String enteredPhone = phoneController.text;
 
-                    var studentFound = _students!
-                        .where((element) => element!.phone == enteredPhone)
+                    var studentFound = students!
+                        // type 0 = student
+                        .where((element) => (element!.type == 0 &&
+                            element.phone == enteredPhone))
                         .firstOrNull;
 
                     Navigator.pop(context);
                     _showResultDialog(context, studentFound);
                   },
-                  child: Text('Search'),
+                  child: const Text('Search'),
                 ),
               ],
             ),
@@ -332,10 +334,10 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
 
                       Navigator.pop(context);
                     },
-                    child: Text('Add'),
+                    child: const Text('Add'),
                   )
                 else
-                  Text('Student Not Found'),
+                  const Text('Student Not Found'),
               ],
             ),
           ),

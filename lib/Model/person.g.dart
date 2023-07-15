@@ -19,6 +19,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           ? null
           : DateTime.parse(json['startDate'] as String),
       status: json['status'] as int?,
+      type: json['type'] as int?,
       userId: json['userId'] as String?,
     );
 
@@ -33,5 +34,6 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'parentPhone1': instance.parentPhone1,
       'parentPhone2': instance.parentPhone2,
       'dob': instance.dob?.toIso8601String(),
+      'type': instance.type,
       'userId': instance.userId,
     };
