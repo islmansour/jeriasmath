@@ -18,12 +18,13 @@ class _PurchaseCardState extends State<PurchaseCard> {
   @override
   Widget build(BuildContext context) {
     final userData = UserData.of(context);
+
     var purchaseStatus = userData!.lookupTable!
         .where((element) => (element!.type == "PURCHASE_STATUS" &&
             element.active == true &&
             element.lang == userData.user.language &&
             element.code == widget.purchase!.status))
-        .first;
+        .firstOrNull;
     int convertedAmount = int.parse(widget.purchase!.amount.split('.')[0]);
     double sum = 0;
     widget.purchase!.payments!.forEach(
@@ -102,41 +103,6 @@ class _PurchaseCardState extends State<PurchaseCard> {
                           fieldName: LocaleKeys.maxAttendance.tr(),
                           fieldValue:
                               '${widget.purchase!.maxAttendances!} / ${widget.purchase!.payments!.length}'),
-                      // FutureBuilder<List<Payment?>?>(
-                      //     future:
-                      //         Repository().getPurchasePayments(widget.purchase),
-                      //     builder: (context, snapshot) {
-                      //       if (snapshot.connectionState ==
-                      //           ConnectionState.waiting) {
-                      //         return const Center(
-                      //             child: CircularProgressIndicator());
-                      //       } else if (snapshot.hasError) {
-                      //         return Center(
-                      //             child: FieldWidget(
-                      //           fieldName: LocaleKeys.maxAttendance.tr(),
-                      //           fieldValue:
-                      //               '${widget.purchase!.maxAttendances!} / ? ',
-                      //         ));
-                      //       } else if (snapshot.hasData) {
-                      //         for (var element in snapshot.data!) {
-                      //           print(
-                      //               'here sum= $sum\r\n ${element!.amount.toString()} ${double.parse(element!.amount.toString())}');
-                      //           sum += double.parse(element!.amount.toString());
-                      //         }
-
-                      //         return FieldWidget(
-                      //           fieldName: LocaleKeys.maxAttendance.tr(),
-                      //           fieldValue:
-                      //               '${widget.purchase!.maxAttendances!} / ${snapshot.data!.length}',
-                      //         );
-                      //       } else {
-                      //         return FieldWidget(
-                      //           fieldName: LocaleKeys.maxAttendance.tr(),
-                      //           fieldValue:
-                      //               '${widget.purchase!.maxAttendances!} / ? ',
-                      //         );
-                      //       }
-                      //     }),
                     ],
                   ),
                   const SizedBox(
@@ -153,16 +119,17 @@ class _PurchaseCardState extends State<PurchaseCard> {
                   const SizedBox(
                     width: 8,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FieldWidget(
-                        fieldName: LocaleKeys.status.tr(),
-                        fieldValue: '${purchaseStatus!.value}',
-                      ),
-                    ],
-                  ),
+                  if (purchaseStatus != null)
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FieldWidget(
+                          fieldName: LocaleKeys.status.tr(),
+                          fieldValue: '${purchaseStatus.value}',
+                        ),
+                      ],
+                    ),
                   // if (purchase!.autoGenerate! == true)
                   //   const SizedBox(
                   //     width: 8,

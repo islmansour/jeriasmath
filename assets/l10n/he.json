@@ -53,5 +53,7 @@
   "errorPhone": "מספר טלפון נייד לא תקין.",
   "studentExists": "תלמיד קיים במערכת",
   "existsInGroups": "מצא בקבוצות",
+  "firstRequired": "שם פרטי הוא שדות חובה.",
+  "lastNameRequired": "שם משפחה הוא שדות חובה.",
   "nodata": "לא נמצאו נתונים"
 }

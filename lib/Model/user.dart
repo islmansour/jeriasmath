@@ -37,17 +37,7 @@ class AppUser {
     this.created_by,
     this.uid,
     this.id,
-  }) {
-    if (contactId != null) {
-      if (personList != null)
-        print('AppUser dart: ' + personList!.length.toString());
-      // Repository().getSingleContact(contactId.toString()).then((value) {
-      //   if (value != null) {
-      //     person = value;
-      //   }
-      // });
-    }
-  }
+  });
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>
       _$AppUserFromJson(json);

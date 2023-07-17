@@ -322,4 +322,16 @@ class Repository {
 
     return studentAttendanceFromJson(response);
   }
+
+  Future<Purchase?> addStudentsPurchaseAPI(var record) async {
+    var response = await _helper.post(
+      "purchase/upsert",
+      body: record,
+    );
+
+    var responseData = jsonDecode(response);
+    // var studentsAttance = responseData['student_attendance'];
+
+    return Purchase.fromJson(responseData);
+  }
 }

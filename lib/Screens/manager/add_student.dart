@@ -22,6 +22,8 @@ class AddStudentFormPage extends StatefulWidget {
 class _AddStudentFormPageState extends State<AddStudentFormPage> {
   int currentStep = 0;
   String errorPhone = "";
+  String errorLastName = "";
+  String errorFirstName = "";
   bool studentExists = false;
   List<GroupPerson?> relatedGroups = [];
   late TextEditingController lastNameController;
@@ -125,15 +127,6 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
               controller: phoneController,
               //   decoration: InputDecoration(labelText: LocaleKeys.phone.tr()),
             ),
-
-            // TextFormField(
-            //   controller: startDateController,
-            //   decoration:  InputDecoration(labelText: 'Start Date'),
-            // ),
-            // TextFormField(
-            //   controller: statusController,
-            //   decoration:  InputDecoration(labelText: 'Status'),
-            // ),
           ],
         ),
         isActive: true,
@@ -152,19 +145,31 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
           children: [
             if (studentExists == true)
               Text(
-                "${LocaleKeys.existsInGroups.tr()}",
+                LocaleKeys.existsInGroups.tr(),
                 style: TextStyle(color: Colors.red.shade400),
               ),
             if (studentExists == true)
-              Text(
-                  '${relatedGroups.toString().replaceAll("[", "").replaceAll("]", "")}'),
+              Text(relatedGroups
+                  .toString()
+                  .replaceAll("[", "")
+                  .replaceAll("]", "")),
             TextFormField(
               controller: lastNameController,
-              decoration: InputDecoration(labelText: LocaleKeys.lastName.tr()),
+              decoration: InputDecoration(
+                labelText: LocaleKeys.lastName.tr(),
+                errorText: errorLastName == "" ? null : errorLastName,
+                hintStyle: const TextStyle(fontSize: 12),
+                hintText: LocaleKeys.lastName.tr(),
+              ),
             ),
             TextFormField(
               controller: firstNameController,
-              decoration: InputDecoration(labelText: LocaleKeys.firstName.tr()),
+              decoration: InputDecoration(
+                labelText: LocaleKeys.firstName.tr(),
+                errorText: errorFirstName == "" ? null : errorFirstName,
+                hintStyle: const TextStyle(fontSize: 12),
+                hintText: LocaleKeys.firstName.tr(),
+              ),
             ),
             // TextFormField(
             //   controller: emailController,
@@ -214,8 +219,22 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
               });
               return;
             }
-            ;
           }
+          if (currentStep == 1 && lastNameController.text.isEmpty) {
+            setState(() {
+              errorLastName = LocaleKeys.lastNameRequired.tr();
+            });
+
+            return;
+          }
+          if (currentStep == 1 && firstNameController.text.isEmpty) {
+            setState(() {
+              errorFirstName = LocaleKeys.firstRequired.tr();
+            });
+
+            return;
+          }
+
           setState(() {
             if (currentStep < steps.length - 1) {
               currentStep += 1;

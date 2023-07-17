@@ -29,7 +29,6 @@ class LookupTable {
 }
 
 List<LookupTable> lookupTableFromJson(String str) {
-  print(str);
   return List<LookupTable>.from(
       json.decode(str).map((x) => LookupTable.fromJson(x)));
 }

@@ -2,7 +2,6 @@ import 'package:jerias_math/Model/account.dart';
 import 'package:jerias_math/Model/payment.dart';
 import 'package:jerias_math/Model/person.dart';
 import 'dart:convert';
-//flutter packages pub run build_runner build
 
 import 'package:json_annotation/json_annotation.dart';
 
@@ -19,12 +18,33 @@ class Purchase {
   int? maxAttendances;
   final bool? autoGenerate;
 
-  @JsonKey(includeFromJson: true, includeToJson: true)
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: true,
+      toJson: _accountToJson,
+      fromJson: _accountFromJson)
   Account? account;
-  //Payment? payment;
+
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: true,
+      toJson: _personToJson,
+      fromJson: _personFromJson)
   Person? lastUpdatedBy;
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: true,
+      toJson: _personToJson,
+      fromJson: _personFromJson)
   Person? student;
+  @JsonKey(
+      includeFromJson: true,
+      includeToJson: true,
+      toJson: _personToJson,
+      fromJson: _personFromJson)
   Person? createdBy;
+
+  @JsonKey(includeFromJson: true, includeToJson: true)
   List<Payment?>? payments;
 
   Purchase({
@@ -46,6 +66,24 @@ class Purchase {
       _$PurchaseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PurchaseToJson(this);
+
+  static Account? _accountFromJson(Map<String, dynamic>? json) {
+    if (json == null) return null;
+    return Account.fromJson(json);
+  }
+
+  static Map<String, dynamic>? _accountToJson(Account? account) {
+    return account?.toJson();
+  }
+
+  static Person? _personFromJson(Map<String, dynamic>? json) {
+    if (json == null) return null;
+    return Person.fromJson(json);
+  }
+
+  static Map<String, dynamic>? _personToJson(Person? person) {
+    return person?.toJson();
+  }
 }
 
 List<Purchase> purchaseFromJson(String str) {

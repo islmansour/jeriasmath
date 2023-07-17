@@ -53,5 +53,7 @@
   "phoneTooltip": "Mobile phone number, 10 digital (only numbers)",
   "errorPhone": "Mobile phone number is incorrect.",
   "existsInGroups": "Exists in",
+  "firstRequired": "First name is reuired.",
+  "lastNameRequired": "Last name is reuired.",
   "nodata": "No data found"
 }

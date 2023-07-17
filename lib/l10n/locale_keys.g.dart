@@ -55,6 +55,8 @@ abstract class  LocaleKeys {
   static const phoneTooltip = 'phoneTooltip';
   static const errorPhone = 'errorPhone';
   static const existsInGroups = 'existsInGroups';
+  static const firstRequired = 'firstRequired';
+  static const lastNameRequired = 'lastNameRequired';
   static const nodata = 'nodata';
 
 }

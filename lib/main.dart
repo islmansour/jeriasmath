@@ -339,7 +339,6 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: (int index) {
           setState(() {
             _currentIndex = index;
-            print("checking tab index: $index");
           });
         },
         items: [
