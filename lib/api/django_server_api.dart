@@ -273,6 +273,9 @@ class Repository {
 
     final response =
         await _helper.get("/purchases/search/", queryParams: queryParams);
+    // var responseData = jsonDecode(response);
+    // var purchaseAttendnace = responseData['purchaseAttendnace'];
+    // print(purchaseAttendnace);
     return purchaseFromJson(response);
   }
 

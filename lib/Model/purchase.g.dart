@@ -30,6 +30,11 @@ Purchase _$PurchaseFromJson(Map<String, dynamic> json) => Purchase(
           ?.map((e) =>
               e == null ? null : Payment.fromJson(e as Map<String, dynamic>))
           .toList(),
+      purchaseAttendance: (json['purchaseAttendance'] as List<dynamic>?)
+          ?.map((e) => e == null
+              ? null
+              : PurchaseAttendance.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$PurchaseToJson(Purchase instance) => <String, dynamic>{
@@ -45,4 +50,5 @@ Map<String, dynamic> _$PurchaseToJson(Purchase instance) => <String, dynamic>{
       'student': Purchase._personToJson(instance.student),
       'createdBy': Purchase._personToJson(instance.createdBy),
       'payments': instance.payments,
+      'purchaseAttendance': instance.purchaseAttendance,
     };

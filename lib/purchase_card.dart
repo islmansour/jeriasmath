@@ -102,7 +102,7 @@ class _PurchaseCardState extends State<PurchaseCard> {
                       FieldWidget(
                           fieldName: LocaleKeys.maxAttendance.tr(),
                           fieldValue:
-                              '${widget.purchase!.maxAttendances!} / ${widget.purchase!.payments!.length}'),
+                              '${widget.purchase!.maxAttendances!} / ${widget.purchase!.purchaseAttendance!.length}'),
                     ],
                   ),
                   const SizedBox(

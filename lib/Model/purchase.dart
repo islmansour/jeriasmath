@@ -1,6 +1,7 @@
 import 'package:jerias_math/Model/account.dart';
 import 'package:jerias_math/Model/payment.dart';
 import 'package:jerias_math/Model/person.dart';
+import 'package:jerias_math/Model/purchase_attendance.dart';
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -47,20 +48,23 @@ class Purchase {
   @JsonKey(includeFromJson: true, includeToJson: true)
   List<Payment?>? payments;
 
-  Purchase({
-    this.id,
-    this.createdBy,
-    this.created,
-    this.lastUpdated,
-    this.lastUpdatedBy,
-    this.status,
-    this.student,
-    this.amount,
-    this.maxAttendances,
-    this.autoGenerate,
-    this.account,
-    this.payments,
-  });
+  @JsonKey(includeFromJson: true, includeToJson: true)
+  List<PurchaseAttendance?>? purchaseAttendance;
+
+  Purchase(
+      {this.id,
+      this.createdBy,
+      this.created,
+      this.lastUpdated,
+      this.lastUpdatedBy,
+      this.status,
+      this.student,
+      this.amount,
+      this.maxAttendances,
+      this.autoGenerate,
+      this.account,
+      this.payments,
+      this.purchaseAttendance});
 
   factory Purchase.fromJson(Map<String, dynamic> json) =>
       _$PurchaseFromJson(json);
