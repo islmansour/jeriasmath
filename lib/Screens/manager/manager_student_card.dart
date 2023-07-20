@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/person.dart';
+import 'package:jerias_math/Screens/manager/manager_student_detials.dart';
 import 'package:jerias_math/Screens/manager/student_purchases_list.dart';
 
 class MgrStudentCard extends StatelessWidget {
@@ -15,13 +16,15 @@ class MgrStudentCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => StudentPurchasesList(
+            //  builder: (context) => StudentPurchasesList(
+            builder: (context) => StudentDetailsPages(
               student: student,
             ),
           ),
         );
       },
       child: Card(
+        shadowColor: Colors.yellow.shade700.withOpacity(0.4),
         elevation: 1,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -36,25 +39,29 @@ class MgrStudentCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${student!.firstName} ${student!.lastName}',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.green[200]!,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${student!.firstName} ${student!.lastName}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Divider(
-                            color: Colors.grey.withOpacity(0.2),
-                            height: 1,
-                            thickness: 1,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -63,56 +70,55 @@ class MgrStudentCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _buildInfoRow(
-                            Icons.phone_iphone, 'Phone', student!.phone),
-                        if (student!.parentPhone1 != null &&
-                            student!.parentPhone1 != "")
-                          Container(
-                            width: 1.0, // Set the width of the vertical line
-                            height: 24.0, // Set the height of the vertical line
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(
-                                  0.2), // Set the color with low opacity
+                              border: Border.all(
+                                color: Colors.green[200]!,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: _buildInfoRow(
+                              Icons.phone_iphone,
+                              'Phone',
+                              student!.phone,
                             ),
                           ),
-                        if (student!.parentPhone1 != null &&
-                            student!.parentPhone1 != "")
-                          _buildInfoRow(
-                            Icons.phone_rounded,
-                            'Parent Phone 1',
-                            student!.parentPhone1.toString(),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        // if (student!.parentPhone1 != null &&
+                        //     student!.parentPhone1 != "")
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.green[200]!,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: _buildInfoRow(
+                              Icons.phone_rounded,
+                              'Parent Phone 1',
+                              student!.parentPhone1.toString(),
+                            ),
                           ),
+                        ),
+                        // if (student!.parentPhone1 == null ||
+                        //     student!.parentPhone1!.isEmpty)
+                        //   SizedBox(
+                        //     width:
+                        //         200, // Set the desired width for the empty container
+                        //   ),
                       ],
                     )
-
-                    // if ((student!.parentPhone1 != null &&
-                    //         student!.parentPhone1 != "") &&
-                    //     (student!.parentPhone2 != null &&
-                    //         student!.parentPhone2 != ""))
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     // // if (student!.parentPhone1 != null &&
-                    //     // //     student!.parentPhone1 != "")
-                    //     // _buildInfoRow(
-                    //     //   Icons.phone_rounded,
-                    //     //   'Parent Phone 1',
-                    //     //   student!.parentPhone1.toString(),
-                    //     // ),
-                    //     // if (student!.parentPhone2 != null)
-                    //     // Row(
-                    //     //   children: [
-                    //     //     _buildInfoRow(Icons.phone_rounded, 'Parent Phone 2',
-                    //     //         student!.parentPhone2.toString()),
-                    //     //     SizedBox(
-                    //     //       width: (220 -
-                    //     //               student!.parentPhone2.toString().length)
-                    //     //           .toDouble(),
-                    //     //     )
-                    //     //   ],
-                    //     // ),
-                    //   ],
-                    // )
                   ],
                 ),
               ),

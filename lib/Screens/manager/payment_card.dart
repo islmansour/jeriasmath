@@ -23,6 +23,7 @@ class PaymentCard extends StatelessWidget {
         .value
         .toString();
     return Card(
+      shadowColor: Colors.yellow.shade700.withOpacity(0.4),
       elevation: 3,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),

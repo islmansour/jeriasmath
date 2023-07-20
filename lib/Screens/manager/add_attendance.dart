@@ -30,6 +30,7 @@ class _CustomStudentCardState extends State<CustomStudentCard> {
   Widget build(BuildContext context) {
     final userData = UserData.of(context);
     return Card(
+      shadowColor: Colors.yellow.shade700.withOpacity(0.4),
       elevation: 1.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),

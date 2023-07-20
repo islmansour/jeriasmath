@@ -44,6 +44,7 @@ class _PurchaseCardState extends State<PurchaseCard> {
         );
       },
       child: Card(
+        shadowColor: Colors.yellow.shade700.withOpacity(0.4),
         elevation: 4,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shape: RoundedRectangleBorder(
@@ -57,14 +58,20 @@ class _PurchaseCardState extends State<PurchaseCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.green[200]!,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (widget.purchase!.autoGenerate! == true)
@@ -79,120 +86,97 @@ class _PurchaseCardState extends State<PurchaseCard> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Container(
-                    width: 1.0, // Set the width of the vertical line
-                    height: 48.0, // Set the height of the vertical line
-                    decoration: BoxDecoration(
-                      color: Colors.black
-                          .withOpacity(0.2), // Set the color with low opacity
                     ),
                   ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FieldWidget(
-                          fieldName: LocaleKeys.maxAttendance.tr(),
-                          fieldValue:
-                              '${widget.purchase!.maxAttendances!} / ${widget.purchase!.purchaseAttendance!.length}'),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Container(
-                    width: 1.0, // Set the width of the vertical line
-                    height: 48.0, // Set the height of the vertical line
-                    decoration: BoxDecoration(
-                      color: Colors.black
-                          .withOpacity(0.2), // Set the color with low opacity
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.green[200]!,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: FieldWidget(
+                        fieldName: LocaleKeys.maxAttendance.tr(),
+                        fieldValue:
+                            '${widget.purchase!.maxAttendances!} / ${widget.purchase!.purchaseAttendance!.length}',
+                      ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 8,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.green[200]!,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FieldWidget(
+                            fieldName: LocaleKeys.status.tr(),
+                            fieldValue: '${purchaseStatus!.value}',
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  if (purchaseStatus != null)
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.green[200]!,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        FieldWidget(
-                          fieldName: LocaleKeys.status.tr(),
-                          fieldValue: '${purchaseStatus.value}',
+                        FieldHorizatalWidget(
+                          fieldName: LocaleKeys.create.tr(),
+                          fieldValue: DateFormat('dd/MM/yy HH:mm')
+                              .format(widget.purchase!.created!),
                         ),
                       ],
                     ),
-                  // if (purchase!.autoGenerate! == true)
-                  //   const SizedBox(
-                  //     width: 8,
-                  //   ),
-                  // if (purchase!.autoGenerate!)
-                  //   Container(
-                  //     width: 1.0, // Set the width of the vertical line
-                  //     height: 48.0, // Set the height of the vertical line
-                  //     decoration: BoxDecoration(
-                  //       color: Colors.black
-                  //           .withOpacity(0.2), // Set the color with low opacity
-                  //     ),
-                  //   ),
-                  // if (purchase!.autoGenerate! == true)
-                  //   const SizedBox(
-                  //     width: 8,
-                  //   ),
-                  // if (purchase!.autoGenerate! == true)
-                  //   const Column(
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [Icon(Icons.autorenew_rounded)],
-                  //   ),
-                ],
-              ),
-              Divider(
-                color: Colors.black
-                    .withOpacity(0.2), // Set the color with low opacity
-                thickness: 1.0, // Set the thickness of the line
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FieldHorizatalWidget(
-                        fieldName: LocaleKeys.create.tr(),
-                        fieldValue: DateFormat('dd/MM/yy HH:mm')
-                            .format(widget.purchase!.created!),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FieldHorizatalWidget(
-                        fieldName: LocaleKeys.lastUpdated.tr(),
-                        fieldValue: DateFormat('dd/MM/yy HH:mm')
-                            .format(widget.purchase!.lastUpdated!),
-                      ),
-                    ],
-                  ),
-                  const Column(
-                    children: [],
-                  )
-                ],
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FieldHorizatalWidget(
+                          fieldName: LocaleKeys.lastUpdated.tr(),
+                          fieldValue: DateFormat('dd/MM/yy HH:mm')
+                              .format(widget.purchase!.lastUpdated!),
+                        ),
+                      ],
+                    ),
+                    const Column(
+                      children: [],
+                    )
+                  ],
+                ),
               ),
             ],
           ),
@@ -201,6 +185,8 @@ class _PurchaseCardState extends State<PurchaseCard> {
     );
   }
 }
+
+// FieldWidget and FieldHorizontalWidget classes are unchanged from the previous code and are included here for reference.
 
 class FieldWidget extends StatelessWidget {
   final String fieldName;

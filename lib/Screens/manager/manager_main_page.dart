@@ -71,6 +71,7 @@ class ManageMainPage extends StatelessWidget {
     return GestureDetector(
       onTap: null,
       child: Card(
+        shadowColor: Colors.yellow.shade700.withOpacity(0.4),
         elevation: 4.0,
         child: Padding(
           padding: const EdgeInsets.all(16.0),

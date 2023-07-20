@@ -96,6 +96,7 @@ class _EventStudentAttendanceListPageState
                     studentAttendanceList[index];
 
                 return Card(
+                  shadowColor: Colors.yellow.shade700.withOpacity(0.4),
                   elevation: 2.0,
                   margin: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 8.0),

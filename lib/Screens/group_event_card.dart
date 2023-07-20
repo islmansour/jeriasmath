@@ -11,6 +11,7 @@ class GroupEventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shadowColor: Colors.yellow.shade700.withOpacity(0.4),
       elevation: 2.0,
       child: ListTile(
         title: SizedBox(

@@ -6,7 +6,7 @@ import 'package:jerias_math/Model/purchase.dart';
 import 'package:jerias_math/Screens/manager/add_purchase.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/l10n/locale_keys.g.dart';
-import 'package:jerias_math/purchase_card.dart';
+import 'package:jerias_math/Screens/purchase_card.dart';
 
 class StudentPurchasesList extends StatefulWidget {
   Person? student;
@@ -33,17 +33,17 @@ class _StudentPurchasesListState extends State<StudentPurchasesList> {
         },
         child: const Icon(Icons.add),
       ),
-      appBar: AppBar(
-        title: Column(
-          children: [
-            Text(LocaleKeys.purchases.tr()),
-            Text(
-              "${widget.student!.firstName} ${widget.student!.lastName}",
-              style: const TextStyle(fontSize: 14),
-            )
-          ],
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Column(
+      //     children: [
+      //       Text(LocaleKeys.purchases.tr()),
+      //       Text(
+      //         "${widget.student!.firstName} ${widget.student!.lastName}",
+      //         style: const TextStyle(fontSize: 14),
+      //       )
+      //     ],
+      //   ),
+      // ),
       body: FutureBuilder<List<Purchase?>?>(
         future: Repository().getStudentPurchasesAPI(widget.student),
         builder: (context, snapshot) {

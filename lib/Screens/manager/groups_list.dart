@@ -71,6 +71,7 @@ class GroupClassCard extends StatelessWidget {
         );
       },
       child: Card(
+        shadowColor: Colors.yellow.shade700.withOpacity(0.4),
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -80,85 +81,66 @@ class GroupClassCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.group,
-                    color: Colors.green.shade700,
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.green[200]!,
+                    width: 1.0,
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      group?.name ?? '',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.groups_2_rounded,
+                      color: Colors.green.shade700,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        group?.name ?? '',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Icon(
-                    isActive ? Icons.check_circle : Icons.cancel,
-                    color: isActive ? Colors.green : Colors.red,
-                  ),
-                ],
+                    Icon(
+                      isActive ? Icons.check_circle : Icons.cancel,
+                      color: isActive ? Colors.green : Colors.red,
+                    ),
+                  ],
+                ),
               ),
-              // const SizedBox(height: 4),
-              // Row(
-              //   children: [
-              //     const Icon(
-              //       Icons.co_present_outlined,
-              //       color: Colors.green,
-              //     ),
-              //     const SizedBox(width: 8),
-              //     Expanded(
-              //       child: Text(
-              //         group!.teacher == null
-              //             ? ''
-              //             : '${group!.teacher!.firstName ?? ''} ${group!.teacher!.lastName ?? ''}',
-              //         style: const TextStyle(fontSize: 12),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(
-                    Icons.calendar_today,
-                    color: Colors.green.shade700,
+                  Expanded(
+                    flex: 6, // 7 parts out of 10 (70%)
+                    child: IconWithContent(
+                      iconData: Icons.calendar_today,
+                      content: group?.weekDays == "[]"
+                          ? LocaleKeys.notSet.tr()
+                          : group?.weekDays
+                                  .replaceAll('[', '')
+                                  .replaceAll(']', '')
+                                  .split(', ')
+                                  .map((englishWeekday) =>
+                                      translateWeekday(englishWeekday)
+                                          .replaceAll('יום ', ''))
+                                  .join(', ') ??
+                              LocaleKeys.notSet.tr(),
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: group?.weekDays == "[]"
-                        ? Text(
-                            LocaleKeys.notSet.tr(),
-                            style: const TextStyle(fontSize: 12),
-                          )
-                        : Text(
-                            group?.weekDays
-                                    .replaceAll('[', '')
-                                    .replaceAll(']', '')
-                                    .split(', ')
-                                    .map((englishWeekday) =>
-                                        translateWeekday(englishWeekday)
-                                            .replaceAll('יום ', ''))
-                                    .join(', ') ??
-                                LocaleKeys.notSet.tr(),
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                  ),
-                  const SizedBox(width: 8),
-                  Icon(
-                    Icons.co_present_outlined,
-                    color: Colors.green.shade700,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      group!.teacher == null
+                    flex: 3, // 3 parts out of 10 (30%)
+                    child: IconWithContent(
+                      iconData: Icons.co_present_outlined,
+                      content: group!.teacher == null
                           ? ''
                           : '${group!.teacher!.firstName ?? ''} ${group!.teacher!.lastName ?? ''}',
-                      style: const TextStyle(fontSize: 12),
                     ),
                   ),
                 ],
@@ -166,6 +148,49 @@ class GroupClassCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class IconWithContent extends StatelessWidget {
+  final IconData iconData;
+  final String content;
+
+  const IconWithContent({
+    Key? key,
+    required this.iconData,
+    required this.content,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.green[200]!,
+          width: 1.0,
+        ),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            iconData,
+            color: Colors.green.shade700,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            // Wrap the Text widget with Expanded
+            child: Text(
+              content,
+              style: const TextStyle(fontSize: 12),
+              overflow:
+                  TextOverflow.ellipsis, // Add ellipsis to handle long text
+            ),
+          ),
+        ],
       ),
     );
   }
