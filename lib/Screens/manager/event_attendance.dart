@@ -28,21 +28,7 @@ class _EventStudentAttendanceListPageState
           children: [
             SizedBox(
               // width: MediaQuery.of(context).size.width * 0.9,
-              child:
-                  // Expanded(
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       Text(
-                  //         DateFormat('EEEE')
-                  //             .format(widget.groupEvent!.created!),
-                  //         style: const TextStyle(
-                  //             fontWeight: FontWeight.bold, fontSize: 18),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -52,20 +38,6 @@ class _EventStudentAttendanceListPageState
                   ),
                 ],
               ),
-
-              // Expanded(
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text(
-              //         DateFormat('hh:mm a')
-              //             .format(widget.groupEvent!.created!),
-              //         style: const TextStyle(
-              //             fontWeight: FontWeight.bold, fontSize: 18),
-              //       ),
-              //     ],
-              //   ),
-              // ),
             ),
             Text(
               widget.groupEvent!.group!.name,
@@ -104,7 +76,7 @@ class _EventStudentAttendanceListPageState
                     leading:
                         _buildAttendanceIcon(studentAttendance?.status ?? 0),
                     title: Text(
-                      '${studentAttendance?.student.firstName ?? ""} ${studentAttendance?.student.lastName ?? ""}',
+                      '${studentAttendance!.student!.firstName ?? ""} ${studentAttendance.student!.lastName ?? ""}',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
@@ -115,8 +87,8 @@ class _EventStudentAttendanceListPageState
                       setState(() {
                         studentAttendance?.status =
                             (studentAttendance.status + 1) % 3;
-                        Repository()
-                            .addStudentsAttanceAPI(studentAttendance!.toJson());
+                        Repository().addStudentsAttendanceAPI(
+                            studentAttendance!.toJson());
                       });
                     },
                   ),

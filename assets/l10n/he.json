@@ -55,5 +55,8 @@
   "existsInGroups": "מצא בקבוצות",
   "firstRequired": "שם פרטי הוא שדות חובה.",
   "lastNameRequired": "שם משפחה הוא שדות חובה.",
+  "successfullyAdded": "הוספה הצליחה!",
+  "addFailed": "הוספה נכשלה!",
+  "writeToSearch": "לחיפוש תתחיל להקילד...",
   "nodata": "לא נמצאו נתונים"
 }

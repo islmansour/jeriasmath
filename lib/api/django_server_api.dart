@@ -10,7 +10,6 @@ import 'package:jerias_math/Model/person.dart';
 import 'package:jerias_math/Model/person_group.dart';
 import 'package:jerias_math/Model/purchase.dart';
 import 'package:jerias_math/Model/student_attendance.dart';
-import 'dart:convert' show json, jsonEncode, utf8;
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,8 +62,6 @@ class ApiBaseHelper {
   Future<dynamic> getUserOperations(String url) async {
     var _pref = await SharedPreferences.getInstance();
     _baseUrl = "http://arabapps.biz:8000";
-    //_baseUrl = 'http://127.0.0.1:8000';
-    //print('api [getUserOperations]: ' + _baseUrl! + url);
 
     try {
       if (!url.contains('get_user_by_uid')) {
@@ -273,18 +270,12 @@ class Repository {
 
     final response =
         await _helper.get("/purchases/search/", queryParams: queryParams);
-    // var responseData = jsonDecode(response);
-    // var purchaseAttendnace = responseData['purchaseAttendnace'];
-    // print(purchaseAttendnace);
+
     return purchaseFromJson(response);
   }
 
   Future<List<Payment?>?> getPurchasePayments(Purchase? purchase,
       {DateTime? from, DateTime? to}) async {
-    // Map<String, dynamic> queryParams = {
-    //   'purchase_id': purchase!.id.toString(),
-    // };
-
     final response =
         await _helper.get("/purchase/${purchase!.id.toString()}/payments/");
 
@@ -303,7 +294,7 @@ class Repository {
     return GroupEvent.fromJson(groupEventData);
   }
 
-  Future<StudentAttendance?> addStudentsAttanceAPI(var record) async {
+  Future<StudentAttendance?> addStudentsAttendanceAPI(var record) async {
     var response = await _helper.post(
       "create-student-attendance",
       body: record,
@@ -321,6 +312,17 @@ class Repository {
       'groupEvent_id': groupevent.id.toString(),
     };
     var response = await _helper.get("/get-student-attendance-by-group-event/",
+        queryParams: queryParams);
+
+    return studentAttendanceFromJson(response);
+  }
+
+  Future<List<StudentAttendance?>?> getStudentsAttendanceAPI(
+      Person record) async {
+    Map<String, dynamic> queryParams = {
+      'student_id': record.id.toString(),
+    };
+    var response = await _helper.get("/search_student_attendance_by_student/",
         queryParams: queryParams);
 
     return studentAttendanceFromJson(response);

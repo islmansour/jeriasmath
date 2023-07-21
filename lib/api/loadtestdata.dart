@@ -27,7 +27,6 @@ Future<AppUser?> getUser(String uid) async {
     final appUser = AppUser.fromJson(jsonDecode(s));
     return appUser;
   } catch (e) {
-    print(e.toString());
     // If encountering an error, return 0
     return null;
   }

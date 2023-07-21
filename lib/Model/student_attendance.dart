@@ -1,6 +1,4 @@
 import 'dart:convert';
-//flutter packages pub run build_runner build
-
 import 'package:jerias_math/Model/group_event.dart';
 import 'package:jerias_math/Model/person.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -16,24 +14,25 @@ class StudentAttendance {
   int lastUpdatedBy;
   int status; //LOV ATTENDED, DID NOT ATTEND, FREE
 
-  @JsonKey(includeFromJson: true, includeToJson: true)
-  @GroupEventConverter()
-  late GroupEvent groupEvent;
-  @JsonKey(includeFromJson: true, includeToJson: true)
-  Person student;
+  @JsonKey(fromJson: _groupEventFromJson, toJson: _groupEventToJson)
+  GroupEvent? groupEvent;
+
+  @JsonKey(fromJson: _personFromJson, toJson: _personToJson)
+  Person? student;
 
   set setGroupEvent(GroupEvent ge) {
     groupEvent = ge;
   }
 
-  StudentAttendance(
-      {required this.created,
-      required this.createdBy,
-      required this.id,
-      required this.lastUpdated,
-      required this.lastUpdatedBy,
-      required this.status,
-      required this.student});
+  StudentAttendance({
+    required this.created,
+    required this.createdBy,
+    required this.id,
+    required this.lastUpdated,
+    required this.lastUpdatedBy,
+    required this.status,
+    required this.student,
+  });
 
   factory StudentAttendance.fromJson(Map<String, dynamic> json) =>
       _$StudentAttendanceFromJson(json);
@@ -41,7 +40,7 @@ class StudentAttendance {
   Map<String, dynamic> toJson() => _$StudentAttendanceToJson(this);
 
   // Define custom serialization logic for groupEvent
-  Map<String, dynamic> _groupEventToJson(GroupEvent? groupEvent) {
+  static Map<String, dynamic> _groupEventToJson(GroupEvent? groupEvent) {
     if (groupEvent != null) {
       return groupEvent.toJson();
     }
@@ -49,26 +48,27 @@ class StudentAttendance {
   }
 
   // Define custom serialization logic for student
-  Map<String, dynamic> _studentToJson(Person? student) {
+  static Map<String, dynamic> _personToJson(Person? student) {
     if (student != null) {
       return student.toJson();
     }
     return {};
   }
-}
 
-class GroupEventConverter
-    implements JsonConverter<GroupEvent, Map<String, dynamic>> {
-  const GroupEventConverter();
-
-  @override
-  GroupEvent fromJson(Map<String, dynamic> json) {
-    return GroupEvent.fromJson(json);
+  // Define custom deserialization logic for groupEvent
+  static GroupEvent? _groupEventFromJson(Map<String, dynamic>? json) {
+    if (json != null) {
+      return GroupEvent.fromJson(json);
+    }
+    return null;
   }
 
-  @override
-  Map<String, dynamic> toJson(GroupEvent groupEvent) {
-    return groupEvent.toJson();
+  // Define custom deserialization logic for student
+  static Person? _personFromJson(Map<String, dynamic>? json) {
+    if (json != null) {
+      return Person.fromJson(json);
+    }
+    return null;
   }
 }
 

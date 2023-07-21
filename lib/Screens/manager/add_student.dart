@@ -9,12 +9,11 @@ import 'package:jerias_math/flash_bar.dart';
 import 'package:jerias_math/l10n/locale_keys.g.dart';
 import 'package:jerias_math/main.dart';
 
+// ignore: must_be_immutable
 class AddStudentFormPage extends StatefulWidget {
   final Group? group;
-  const AddStudentFormPage({
-    super.key,
-    this.group,
-  });
+  Person? student;
+  AddStudentFormPage({super.key, this.group, this.student});
   @override
   _AddStudentFormPageState createState() => _AddStudentFormPageState();
 }
@@ -28,42 +27,35 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
   List<GroupPerson?> relatedGroups = [];
   late TextEditingController lastNameController;
   late TextEditingController firstNameController;
-  late TextEditingController startDateController;
-  late TextEditingController statusController;
   late TextEditingController phoneController;
-  late TextEditingController emailController;
   late TextEditingController parentPhone1Controller;
-  late TextEditingController parentPhone2Controller;
-  late TextEditingController dobController;
-  late TextEditingController userIdController;
 
   @override
   void initState() {
     super.initState();
+
     lastNameController = TextEditingController();
     firstNameController = TextEditingController();
-    startDateController = TextEditingController();
-    statusController = TextEditingController();
     phoneController = TextEditingController();
-    emailController = TextEditingController();
     parentPhone1Controller = TextEditingController();
-    parentPhone2Controller = TextEditingController();
-    dobController = TextEditingController();
-    userIdController = TextEditingController();
+
+    if (widget.student != null) {
+      lastNameController.text = widget.student!.lastName.toString();
+      firstNameController.text = widget.student!.firstName.toString();
+
+      phoneController.text = widget.student!.phone.toString();
+      parentPhone1Controller.text = widget.student!.parentPhone1.toString();
+    }
   }
 
   @override
   void dispose() {
     lastNameController.dispose();
     firstNameController.dispose();
-    startDateController.dispose();
-    statusController.dispose();
+
     phoneController.dispose();
-    emailController.dispose();
     parentPhone1Controller.dispose();
-    parentPhone2Controller.dispose();
-    dobController.dispose();
-    userIdController.dispose();
+
     super.dispose();
   }
 
@@ -112,7 +104,6 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
                         lastNameController.text = tmp.lastName!;
                         firstNameController.text = tmp.firstName!;
                         parentPhone1Controller.text = tmp.parentPhone1!;
-                        parentPhone2Controller.text = tmp.parentPhone2!;
                         relatedGroups = userData.groupPersons!
                             .where(
                                 (element) => element!.student!.phone == value)
@@ -181,12 +172,7 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
                 decoration:
                     InputDecoration(labelText: LocaleKeys.parentPhone.tr()),
               ),
-            if (studentExists == false)
-              TextFormField(
-                controller: parentPhone2Controller,
-                decoration:
-                    InputDecoration(labelText: LocaleKeys.parentPhone.tr()),
-              ),
+
             // TextFormField(
             //   controller: dobController,
             //   decoration: const InputDecoration(labelText: 'Date of Birth'),
@@ -243,20 +229,8 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
               Person student = Person(
                 lastName: lastNameController.text,
                 firstName: firstNameController.text,
-                startDate: startDateController.text == ""
-                    ? null
-                    : DateTime.parse(startDateController.text),
-                status: statusController.text == ""
-                    ? 1
-                    : int.parse(statusController.text),
                 phone: phoneController.text,
-                email: emailController.text,
                 parentPhone1: parentPhone1Controller.text,
-                parentPhone2: parentPhone2Controller.text,
-                dob: dobController.text == ""
-                    ? null
-                    : DateTime.parse(dobController.text),
-                userId: userIdController.text,
               );
 
               int? studentId = -1;
@@ -331,13 +305,12 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
                         });
                       });
                     } catch (e) {
-                      raiseFlashbard(context);
+                      raiseFlashbard(context, msg: LocaleKeys.addFailed.tr());
                     }
-                    raiseFlashbard(context, msg: "added...");
+                    raiseFlashbard(context,
+                        msg: LocaleKeys.successfullyAdded.tr());
                   }
-                } else {
-                  print('no group avaiable...');
-                }
+                } else {}
               }
             }
           });

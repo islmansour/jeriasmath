@@ -220,9 +220,7 @@ class _MyAppState extends State<MyApp> {
           // _totalNotifications++;
         });
       });
-    } catch (e) {
-      print('main initState $e');
-    }
+    } catch (e) {}
     autologin();
     super.initState();
   }

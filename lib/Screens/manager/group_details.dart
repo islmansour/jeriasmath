@@ -9,7 +9,7 @@ import 'package:jerias_math/l10n/locale_keys.g.dart';
 class GroupDetailsPages extends StatefulWidget {
   final Group? group;
 
-  GroupDetailsPages({required this.group});
+  const GroupDetailsPages({super.key, required this.group});
 
   @override
   State<GroupDetailsPages> createState() => _GroupDetailsPagesState();

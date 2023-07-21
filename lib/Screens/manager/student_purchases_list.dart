@@ -33,17 +33,6 @@ class _StudentPurchasesListState extends State<StudentPurchasesList> {
         },
         child: const Icon(Icons.add),
       ),
-      // appBar: AppBar(
-      //   title: Column(
-      //     children: [
-      //       Text(LocaleKeys.purchases.tr()),
-      //       Text(
-      //         "${widget.student!.firstName} ${widget.student!.lastName}",
-      //         style: const TextStyle(fontSize: 14),
-      //       )
-      //     ],
-      //   ),
-      // ),
       body: FutureBuilder<List<Purchase?>?>(
         future: Repository().getStudentPurchasesAPI(widget.student),
         builder: (context, snapshot) {

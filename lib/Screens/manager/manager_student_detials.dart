@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/person.dart';
+import 'package:jerias_math/Screens/manager/student_attendances_list.dart';
 import 'package:jerias_math/Screens/manager/student_purchases_list.dart';
 
 import 'package:jerias_math/l10n/locale_keys.g.dart';
@@ -8,7 +9,7 @@ import 'package:jerias_math/l10n/locale_keys.g.dart';
 class StudentDetailsPages extends StatefulWidget {
   final Person? student;
 
-  StudentDetailsPages({required this.student});
+  const StudentDetailsPages({super.key, required this.student});
 
   @override
   State<StudentDetailsPages> createState() => _StudentDetailsPagesState();
@@ -27,7 +28,7 @@ class _StudentDetailsPagesState extends State<StudentDetailsPages> {
             tabs: [
               Tab(text: LocaleKeys.purchases.tr()),
               Tab(
-                text: LocaleKeys.groups.tr(),
+                text: LocaleKeys.meetings.tr(),
               ),
               Tab(
                 text: LocaleKeys.edit.tr(),
@@ -38,7 +39,7 @@ class _StudentDetailsPagesState extends State<StudentDetailsPages> {
         body: TabBarView(
           children: [
             StudentPurchasesList(student: widget.student),
-            StudentPurchasesList(student: widget.student),
+            StudentAttendancesList(student: widget.student),
             StudentPurchasesList(student: widget.student),
           ],
         ),

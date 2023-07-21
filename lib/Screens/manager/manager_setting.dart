@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:jerias_math/Screens/manager/groups_list.dart';
+import 'package:jerias_math/Screens/manager/students_list.dart';
 import 'package:jerias_math/l10n/locale_keys.g.dart';
 
 // ignore: must_be_immutable
@@ -32,7 +32,16 @@ class _ManagerSettingsPageState extends State<ManagerSettingsPage> {
                   GroupsClick(context: context);
                 },
               ),
-              CustomButton(title: LocaleKeys.students.tr(), onPressed: () {}),
+              CustomButton(
+                  title: LocaleKeys.students.tr(),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => StudentsListPage(),
+                      ),
+                    );
+                  }),
               CustomButton(title: LocaleKeys.teachers.tr(), onPressed: () {}),
             ],
           ),
@@ -51,14 +60,15 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       // onTap: onPressed,
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => GroupPage(),
-          ),
-        );
-      },
+      onTap: onPressed,
+      // () {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => GroupPage(),
+      //     ),
+      //   );
+      // },
       child: Container(
         width: 100,
         height: 100,

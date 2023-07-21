@@ -57,6 +57,9 @@ abstract class  LocaleKeys {
   static const existsInGroups = 'existsInGroups';
   static const firstRequired = 'firstRequired';
   static const lastNameRequired = 'lastNameRequired';
+  static const successfullyAdded = 'successfullyAdded';
+  static const addFailed = 'addFailed';
+  static const writeToSearch = 'writeToSearch';
   static const nodata = 'nodata';
 
 }

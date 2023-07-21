@@ -55,5 +55,8 @@
   "existsInGroups": "Exists in",
   "firstRequired": "First name is reuired.",
   "lastNameRequired": "Last name is reuired.",
+  "successfullyAdded": "Successfully Added",
+  "addFailed": "Adding Failed",
+  "writeToSearch": "To search, begin typing...",
   "nodata": "No data found"
 }

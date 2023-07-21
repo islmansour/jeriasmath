@@ -1,8 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/person.dart';
 import 'package:jerias_math/Screens/manager/manager_student_detials.dart';
-import 'package:jerias_math/Screens/manager/student_purchases_list.dart';
 
 class MgrStudentCard extends StatelessWidget {
   final Person? student;

@@ -51,7 +51,7 @@ class _CustomStudentCardState extends State<CustomStudentCard> {
               ));
             } else {
               attednaceResults.removeWhere(
-                (element) => element!.student.id == widget.student!.id,
+                (element) => element!.student!.id == widget.student!.id,
               );
             }
           });
@@ -91,7 +91,7 @@ class _CustomStudentCardState extends State<CustomStudentCard> {
                   ));
                 } else {
                   attednaceResults.removeWhere(
-                    (element) => element!.student.id == widget.student!.id,
+                    (element) => element!.student!.id == widget.student!.id,
                   );
                 }
               });
@@ -221,7 +221,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
       students!.forEach((element) {
         bool found = false;
         attednaceResults.forEach((sa) {
-          if (sa!.student.id == element!.student!.id) found = true;
+          if (sa!.student!.id == element!.student!.id) found = true;
         });
         if (!found) {
           attednaceResults.add(StudentAttendance(
@@ -236,7 +236,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
       });
       for (var sa in attednaceResults) {
         sa!.setGroupEvent = newGroupEvent!;
-        Repository().addStudentsAttanceAPI(sa.toJson());
+        Repository().addStudentsAttendanceAPI(sa.toJson());
       }
     });
     setState(() {});
