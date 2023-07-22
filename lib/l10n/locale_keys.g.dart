@@ -25,7 +25,9 @@ abstract class  LocaleKeys {
   static const add = 'add';
   static const teacher = 'teacher';
   static const dates = 'dates';
+  static const thisIsRequired = 'thisIsRequired';
   static const startDate = 'startDate';
+  static const studentUpdated = 'studentUpdated';
   static const endDate = 'endDate';
   static const clear = 'clear';
   static const notSet = 'notSet';
@@ -33,7 +35,11 @@ abstract class  LocaleKeys {
   static const meetings = 'meetings';
   static const attended = 'attended';
   static const notAttended = 'notAttended';
+  static const purchaseDetails = 'purchaseDetails';
+  static const costIsRequired = 'costIsRequired';
+  static const meetingsIsRequired = 'meetingsIsRequired';
   static const free = 'free';
+  static const cost = 'cost';
   static const status = 'status';
   static const price = 'price';
   static const create = 'create';
@@ -60,6 +66,10 @@ abstract class  LocaleKeys {
   static const successfullyAdded = 'successfullyAdded';
   static const addFailed = 'addFailed';
   static const writeToSearch = 'writeToSearch';
+  static const addNewPurchase = 'addNewPurchase';
+  static const back = 'back';
+  static const updateRecord = 'updateRecord';
+  static const continueBtn = 'continueBtn';
   static const nodata = 'nodata';
 
 }

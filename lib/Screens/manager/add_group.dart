@@ -150,20 +150,20 @@ class _AddGroupPageState extends State<AddGroupPage> {
         weekDays.toString(),
       ));
       userData!.setGroups!(tmp);
-
-      Navigator.pop(
-        context,
-        Group(
-          1,
-          groupType,
-          endDate,
-          groupName,
-          startDate,
-          teacher,
-          -1,
-          weekDays.toString(),
-        ),
-      );
+      Navigator.pop(context, true);
+      // Navigator.pop(
+      //   context,
+      //   Group(
+      //     1,
+      //     groupType,
+      //     endDate,
+      //     groupName,
+      //     startDate,
+      //     teacher,
+      //     -1,
+      //     weekDays.toString(),
+      //   ),
+      // );
     }
   }
 

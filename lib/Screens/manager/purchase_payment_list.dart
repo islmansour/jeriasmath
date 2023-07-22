@@ -7,6 +7,7 @@ import 'package:jerias_math/Screens/manager/payment_card.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/l10n/locale_keys.g.dart';
 
+// ignore: must_be_immutable
 class PurchasePaymentsList extends StatelessWidget {
   Purchase? purchase;
 

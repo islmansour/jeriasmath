@@ -277,7 +277,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
                             element.phone == enteredPhone))
                         .firstOrNull;
 
-                    Navigator.pop(context);
+                    Navigator.pop(context, true);
                     _showResultDialog(context, studentFound);
                   },
                   child: const Text('Search'),
@@ -333,7 +333,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
                       // attednaceResults = [];
                       setState(() {});
 
-                      Navigator.pop(context);
+                      Navigator.pop(context, true);
                     },
                     child: const Text('Add'),
                   )

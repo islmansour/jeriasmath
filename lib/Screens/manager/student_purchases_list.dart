@@ -8,6 +8,7 @@ import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/l10n/locale_keys.g.dart';
 import 'package:jerias_math/Screens/purchase_card.dart';
 
+// ignore: must_be_immutable
 class StudentPurchasesList extends StatefulWidget {
   Person? student;
 
@@ -22,14 +23,15 @@ class _StudentPurchasesListState extends State<StudentPurchasesList> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  CreatePurchasePage(student: widget.student!),
-            ),
-          );
+        onPressed: () async {
+          if (await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      CreatePurchasePage(student: widget.student!),
+                ),
+              ) ==
+              true) setState(() {});
         },
         child: const Icon(Icons.add),
       ),

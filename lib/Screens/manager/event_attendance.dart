@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:jerias_math/Model/group_event.dart';
 import 'package:jerias_math/Model/student_attendance.dart';
 import 'package:jerias_math/api/django_server_api.dart';
@@ -80,15 +79,15 @@ class _EventStudentAttendanceListPageState
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      '${getStatusText(studentAttendance?.status ?? 0)}',
+                      getStatusText(studentAttendance.status),
                     ),
                     //trailing: Icon(Icons.arrow_forward),
                     onTap: () {
                       setState(() {
-                        studentAttendance?.status =
+                        studentAttendance.status =
                             (studentAttendance.status + 1) % 3;
                         Repository().addStudentsAttendanceAPI(
-                            studentAttendance!.toJson());
+                            studentAttendance.toJson());
                       });
                     },
                   ),

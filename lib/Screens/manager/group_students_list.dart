@@ -56,19 +56,16 @@ class _GroupPersonsListState extends State<GroupPersonsList> {
       );
     }
 
-    // final List<GroupPerson?> persons = allPersons
-    //     .where((person) => person?.groupId == widget.group!.id)
-    //     .toList();
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddStudentFormPage(group: widget.group),
-            ),
-          );
+        onPressed: () async {
+          if (await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddStudentFormPage(group: widget.group),
+                ),
+              ) ==
+              true) setState(() {});
         },
         child: const Icon(Icons.add),
       ),

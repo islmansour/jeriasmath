@@ -24,7 +24,7 @@ class GroupEditPage extends StatefulWidget {
 class _GroupEditPageState extends State<GroupEditPage> {
   late Group _group;
   late TextEditingController _nameController;
-  late TextEditingController _typeController;
+  //late TextEditingController _typeController;
   List<DropdownMenuItem<String>> teacherDropdown = [];
   String? _selectedTeacherId;
   DateTime? _currentDate;
@@ -37,7 +37,7 @@ class _GroupEditPageState extends State<GroupEditPage> {
     super.initState();
     _group = widget.group!;
     _nameController = TextEditingController(text: _group.name);
-    _typeController = TextEditingController(text: _group.type.toString());
+    // _typeController = TextEditingController(text: _group.type.toString());
     _selectedTeacherId = _group.teacher?.id.toString();
   }
 
@@ -60,12 +60,13 @@ class _GroupEditPageState extends State<GroupEditPage> {
   @override
   void dispose() {
     _nameController.dispose();
-    _typeController.dispose();
+    // _typeController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_selectedTeacherId);
     steps = [
       Step(
         title: Text(LocaleKeys.groupDetails.tr()),
@@ -74,10 +75,6 @@ class _GroupEditPageState extends State<GroupEditPage> {
             TextFormField(
               controller: _nameController,
               decoration: InputDecoration(labelText: LocaleKeys.name.tr()),
-            ),
-            TextFormField(
-              controller: _typeController,
-              decoration: InputDecoration(labelText: LocaleKeys.type.tr()),
             ),
             DropdownButtonFormField<String>(
               value: _selectedTeacherId,
@@ -94,7 +91,7 @@ class _GroupEditPageState extends State<GroupEditPage> {
       ),
       Step(
         title: Text(LocaleKeys.dates.tr()),
-        content: Column(
+        content: const Column(
           children: [
             // Calendar and other form fields
           ],
@@ -133,25 +130,20 @@ class _GroupEditPageState extends State<GroupEditPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _group.name = _nameController.text;
-          _group.type = int.parse(_typeController.text);
+          //_group.type = int.parse(_typeController.text);
           _group.teacher = _findTeacherById(_selectedTeacherId);
           widget.group!.startDate = _currentDate!;
 
-          final userData = UserData.of(context);
-          setState(() {
-            userData!.upsertGroup!(widget.group);
-          });
-
           Repository().upsertGroupsAPI(widget.group).then((value) {
             setState(() {
-              userData!.upsertGroup!(widget.group);
+              //  userData!.upsertGroup!(widget.group);
             });
+            Navigator.pop(context, true);
           });
 
           // Save the updated data here or perform any other actions
-          Navigator.pop(context);
         },
-        child: Icon(Icons.save),
+        child: const Icon(Icons.save),
       ),
     );
   }

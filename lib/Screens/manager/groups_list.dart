@@ -2,11 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Screens/manager/group_details.dart';
-import 'package:jerias_math/main.dart';
+import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/l10n/locale_keys.g.dart';
 import 'package:jerias_math/weekdays.dart';
 
-class GroupPage extends StatelessWidget {
+class GroupPage extends StatefulWidget {
+  @override
+  State<GroupPage> createState() => _GroupPageState();
+}
+
+class _GroupPageState extends State<GroupPage> {
   Widget _buildStep({required String title, required Widget content}) {
     return ExpansionTile(
       title: Text(title),
@@ -22,13 +27,12 @@ class GroupPage extends StatelessWidget {
   // Rest of the code remains the same
   @override
   Widget build(BuildContext context) {
-    final userData = UserData.of(context);
-    final groups = userData!.groups;
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add_group');
+        onPressed: () async {
+          if (await Navigator.pushNamed(context, '/add_group') == true) {
+            setState(() {});
+          }
         },
         child: const Icon(Icons.add),
         // backgroundColor: Colors.blue,
@@ -39,36 +43,69 @@ class GroupPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: groups!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GroupClassCard(group: groups[index]);
+            child: FutureBuilder<List<Group?>?>(
+              future: Repository().getGroupsAPI(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (snapshot.hasData) {
+                  List<Group?> groups = snapshot.data!;
+
+                  return ListView.builder(
+                    itemCount: groups.length,
+                    itemBuilder: (context, index) {
+                      final payment = groups[index];
+                      return GroupClassCard(group: payment!);
+                    },
+                  );
+                } else {
+                  return Center(
+                      child: Text(
+                    LocaleKeys.nodata.tr(),
+                  ));
+                }
               },
             ),
           ),
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: groups!.length,
+          //     itemBuilder: (BuildContext context, int index) {
+          //       return GroupClassCard(group: groups[index]);
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
   }
 }
 
-class GroupClassCard extends StatelessWidget {
+class GroupClassCard extends StatefulWidget {
   final Group? group;
 
   const GroupClassCard({required this.group});
 
   @override
+  State<GroupClassCard> createState() => _GroupClassCardState();
+}
+
+class _GroupClassCardState extends State<GroupClassCard> {
+  @override
   Widget build(BuildContext context) {
-    bool isActive = group?.status == 1;
+    bool isActive = widget.group?.status == 1;
 
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => GroupDetailsPages(group: group),
-          ),
-        );
+      onTap: () async {
+        if (await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => GroupDetailsPages(group: widget.group),
+              ),
+            ) ==
+            true) setState(() {});
       },
       child: Card(
         shadowColor: Colors.yellow.shade700.withOpacity(0.4),
@@ -99,7 +136,7 @@ class GroupClassCard extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        group?.name ?? '',
+                        widget.group?.name ?? '',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -120,9 +157,9 @@ class GroupClassCard extends StatelessWidget {
                     flex: 6, // 7 parts out of 10 (70%)
                     child: IconWithContent(
                       iconData: Icons.calendar_today,
-                      content: group?.weekDays == "[]"
+                      content: widget.group?.weekDays == "[]"
                           ? LocaleKeys.notSet.tr()
-                          : group?.weekDays
+                          : widget.group?.weekDays
                                   .replaceAll('[', '')
                                   .replaceAll(']', '')
                                   .split(', ')
@@ -138,9 +175,9 @@ class GroupClassCard extends StatelessWidget {
                     flex: 3, // 3 parts out of 10 (30%)
                     child: IconWithContent(
                       iconData: Icons.co_present_outlined,
-                      content: group!.teacher == null
+                      content: widget.group!.teacher == null
                           ? ''
-                          : '${group!.teacher!.firstName ?? ''} ${group!.teacher!.lastName ?? ''}',
+                          : '${widget.group!.teacher!.firstName ?? ''} ${widget.group!.teacher!.lastName ?? ''}',
                     ),
                   ),
                 ],

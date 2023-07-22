@@ -25,22 +25,19 @@ class _ManagerGroupEventListState extends State<ManagerGroupEventList> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {});
+    //setState(() {});
+    print('creatiung list');
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddAttendancePage(group: widget.group),
-            ),
-          );
-
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(
-          //       builder: (context) => AddAttendancePage(group: widget.group)),
-          // );
+        onPressed: () async {
+          // ignore: unrelated_type_equality_checks
+          if (await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddAttendancePage(group: widget.group),
+                ),
+              ) ==
+              true) setState(() {});
         },
         child: const Icon(Icons.add),
       ),

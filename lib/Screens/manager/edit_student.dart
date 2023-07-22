@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Model/person.dart';
 import 'package:jerias_math/Model/person_group.dart';
 import 'package:jerias_math/api/django_server_api.dart';
@@ -10,15 +9,15 @@ import 'package:jerias_math/l10n/locale_keys.g.dart';
 import 'package:jerias_math/main.dart';
 
 // ignore: must_be_immutable
-class AddStudentFormPage extends StatefulWidget {
-  final Group? group;
+class EditStudentFormPage extends StatefulWidget {
   Person? student;
-  AddStudentFormPage({super.key, this.group, this.student});
+  bool? editMode = false;
+  EditStudentFormPage({super.key, this.student, this.editMode});
   @override
-  _AddStudentFormPageState createState() => _AddStudentFormPageState();
+  _EditStudentFormPageState createState() => _EditStudentFormPageState();
 }
 
-class _AddStudentFormPageState extends State<AddStudentFormPage> {
+class _EditStudentFormPageState extends State<EditStudentFormPage> {
   int currentStep = 0;
   String errorPhone = "";
   String errorLastName = "";
@@ -65,7 +64,9 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
 
     List<Step> steps = [
       Step(
-        title: Text(LocaleKeys.add.tr()),
+        title: widget.editMode == true
+            ? Text(LocaleKeys.updateRecord.tr())
+            : Text(LocaleKeys.add.tr()),
         content: Column(
           children: [
             TextFormField(
@@ -124,8 +125,8 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
       ),
       Step(
         title: Text(
-          studentExists == true
-              ? LocaleKeys.studentExists.tr()
+          widget.editMode == true
+              ? LocaleKeys.updateRecord.tr()
               : LocaleKeys.newStudent.tr(),
           style: TextStyle(
               color: studentExists == true ? Colors.red : Colors.blue),
@@ -162,34 +163,21 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
                 hintText: LocaleKeys.firstName.tr(),
               ),
             ),
-            // TextFormField(
-            //   controller: emailController,
-            //   decoration: const InputDecoration(labelText: 'Email'),
-            // ),
             if (studentExists == false)
               TextFormField(
                 controller: parentPhone1Controller,
                 decoration:
                     InputDecoration(labelText: LocaleKeys.parentPhone.tr()),
               ),
-
-            // TextFormField(
-            //   controller: dobController,
-            //   decoration: const InputDecoration(labelText: 'Date of Birth'),
-            // ),
-            // TextFormField(
-            //   controller: userIdController,
-            //   decoration: const InputDecoration(labelText: 'User ID'),
-            // ),
           ],
         ),
         isActive: false,
       ),
     ];
     return Scaffold(
-      appBar: AppBar(
-        title: Text(LocaleKeys.addStudent.tr()),
-      ),
+      // appBar: AppBar(
+      //   title: Text(LocaleKeys.addStudent.tr()),
+      // ),
       body: Stepper(
         currentStep: currentStep,
         onStepTapped: (step) {
@@ -227,90 +215,37 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
             } else {
               // All steps completed, create the student object
               Person student = Person(
-                lastName: lastNameController.text,
-                firstName: firstNameController.text,
-                phone: phoneController.text,
-                parentPhone1: parentPhone1Controller.text,
-              );
+                  lastName: lastNameController.text,
+                  firstName: firstNameController.text,
+                  phone: phoneController.text,
+                  parentPhone1: parentPhone1Controller.text,
+                  status: 1,
+                  type: 0);
 
               int? studentId = -1;
               final userData = UserData.of(context);
 
-              if (userData!.persons!
-                  .where((element) => element!.phone == student.phone)
-                  .isEmpty) {
-                userData.persons!.add(student);
-                Repository().createPersonsAPI(student.toJson()).then((value) {
-                  studentId = value;
-                  if (widget.group != null) {
-                    final List<GroupPerson?> groupStudents =
-                        userData.groupPersons != null
-                            ? userData.groupPersons!
-                                .where((element) =>
-                                    element?.group?.id == widget.group!.id &&
-                                    element!.student!.phone == student.phone)
-                                .toList()
-                            : List.empty();
-                    if (groupStudents.isEmpty) {
-                      GroupPerson gp = GroupPerson(
-                        DateTime.now(),
-                        userData.user.contactId,
-                        widget.group!.id,
-                        DateTime.now(),
-                        userData.user.contactId,
-                        -1,
-                        studentId!,
-                        1,
-                      );
-                      Repository().createGroupPersonAPI(gp.toJson());
-                    }
-                  } else {}
-                });
-              } else {
-                studentId = userData.persons!
+              // this will upsert a person
+              Repository().createPersonsAPI(student.toJson()).then((value) {
+                studentId = value;
+                student.id = studentId;
+
+                if (userData!.persons!
                     .where((element) => element!.phone == student.phone)
-                    .first!
-                    .id;
-
-                if (widget.group != null) {
-                  final List<GroupPerson?> groupStudents =
-                      userData.groupPersons != null
-                          ? userData.groupPersons!
-                              .where((element) =>
-                                  element?.group?.id == widget.group!.id &&
-                                  element!.student!.phone == student.phone)
-                              .toList()
-                          : List.empty();
-                  if (groupStudents.isEmpty) {
-                    GroupPerson gp = GroupPerson(
-                      DateTime.now(),
-                      userData.user.contactId,
-                      widget.group!.id,
-                      DateTime.now(),
-                      userData.user.contactId,
-                      -1,
-                      studentId!,
-                      1,
-                    );
-
-                    try {
-                      setState(() {
-                        //  userData.addGroupPerson!(gp);
-
-                        Repository()
-                            .createGroupPersonAPI(gp.toJson())
-                            .then((value) {
-                          userData.addGroupPerson!(value);
-                          Navigator.pop(context, true);
-                        });
-                      });
-                    } catch (e) {
-                      raiseFlashbard(context, msg: LocaleKeys.addFailed.tr());
-                    }
-                    raiseFlashbard(context,
-                        msg: LocaleKeys.successfullyAdded.tr());
-                  }
-                } else {}
+                    .isEmpty) {
+                  userData.persons!.add(student);
+                } else {
+                  userData.persons!
+                          .where((element) => element!.phone == student.phone)
+                          .first !=
+                      student;
+                }
+              });
+              setState(() {});
+              if (widget.editMode == false) {
+                Navigator.pop(context, true);
+              } else {
+                raiseFlashbard(context, msg: LocaleKeys.studentUpdated.tr());
               }
             }
           });
@@ -323,6 +258,58 @@ class _AddStudentFormPageState extends State<AddStudentFormPage> {
               currentStep = 0;
             }
           });
+        },
+        controlsBuilder:
+            (BuildContext context, ControlsDetails controlsDetails) {
+          if (currentStep == steps.length - 1) {
+            // If it's the last step, display "Save" instead of "Continue"
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                TextButton(
+                  style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.green[700])),
+                  onPressed: controlsDetails.onStepContinue,
+                  child: Text(LocaleKeys.save.tr()),
+                ),
+                const SizedBox(width: 8.0),
+                if (currentStep > 0)
+                  TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.grey),
+                    ),
+                    onPressed: controlsDetails.onStepCancel,
+                    child: Text(LocaleKeys.back.tr()),
+                  ),
+              ],
+            );
+          } else {
+            // If it's not the last step, display the default "Continue" button
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                TextButton(
+                  style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.green[700])),
+                  onPressed: controlsDetails.onStepContinue,
+                  child: Text(LocaleKeys.continueBtn.tr()),
+                ),
+                const SizedBox(width: 8.0),
+                if (currentStep > 0)
+                  TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.grey),
+                    ),
+                    onPressed: controlsDetails.onStepCancel,
+                    child: Text(LocaleKeys.back.tr()),
+                  ),
+              ],
+            );
+          }
         },
         steps: steps,
       ),

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/person.dart';
+import 'package:jerias_math/Screens/manager/edit_student.dart';
 import 'package:jerias_math/Screens/manager/student_attendances_list.dart';
 import 'package:jerias_math/Screens/manager/student_purchases_list.dart';
 
@@ -40,7 +41,10 @@ class _StudentDetailsPagesState extends State<StudentDetailsPages> {
           children: [
             StudentPurchasesList(student: widget.student),
             StudentAttendancesList(student: widget.student),
-            StudentPurchasesList(student: widget.student),
+            EditStudentFormPage(
+              student: widget.student,
+              editMode: true,
+            ),
           ],
         ),
       ),

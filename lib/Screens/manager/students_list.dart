@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/person.dart';
+import 'package:jerias_math/Screens/manager/edit_student.dart';
 import 'package:jerias_math/Screens/manager/manager_student_card.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 
 import 'package:jerias_math/l10n/locale_keys.g.dart';
-import 'package:jerias_math/main.dart';
 
 class StudentsListPage extends StatefulWidget {
   const StudentsListPage({super.key});
@@ -27,8 +27,18 @@ class _StudentsListPageState extends State<StudentsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add_student');
+        onPressed: () async {
+          //Navigator.pushNamed(context, '/add_student');
+          final results = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              //  builder: (context) => StudentPurchasesList(
+              builder: (context) => EditStudentFormPage(),
+            ),
+          );
+          if (results == true) {
+            setState(() {});
+          }
         },
         child: const Icon(Icons.add),
         // backgroundColor: Colors.blue,

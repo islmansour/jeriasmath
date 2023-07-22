@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/lookup_table.dart';
 import 'package:jerias_math/Model/person.dart';
 import 'package:jerias_math/Model/purchase.dart';
 import 'package:jerias_math/api/django_server_api.dart';
+import 'package:jerias_math/l10n/locale_keys.g.dart';
 import 'package:jerias_math/main.dart';
 
 class CreatePurchasePage extends StatefulWidget {
@@ -50,7 +52,7 @@ class _CreatePurchasePageState extends State<CreatePurchasePage> {
       });
     } catch (e) {
       // Handle the error or show an error message
-      print('Error fetching lookup table data: $e');
+      //   print('Error fetching lookup table data: $e');
     }
   }
 
@@ -58,7 +60,7 @@ class _CreatePurchasePageState extends State<CreatePurchasePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Purchase'),
+        title: Text(LocaleKeys.addNewPurchase.tr()),
       ),
       body: Stepper(
         currentStep: currentStep,
@@ -77,6 +79,7 @@ class _CreatePurchasePageState extends State<CreatePurchasePage> {
               });
             } else {
               createPurchaseForStudent();
+              Navigator.pop(context, true);
             }
           }
         },
@@ -86,23 +89,23 @@ class _CreatePurchasePageState extends State<CreatePurchasePage> {
               currentStep -= 1;
             });
           } else {
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           }
         },
         steps: [
           Step(
-            title: const Text('Step 1'),
+            title: Text(LocaleKeys.purchaseDetails.tr()),
             content: Form(
               key: formKey,
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Actual Payment',
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.cost.tr(),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Amount is required';
+                        return LocaleKeys.costIsRequired.tr();
                       }
                       return null;
                     },
@@ -111,12 +114,12 @@ class _CreatePurchasePageState extends State<CreatePurchasePage> {
                     },
                   ),
                   TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Max Attendance',
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.meetings.tr(),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Attendance is required';
+                        return LocaleKeys.meetingsIsRequired.tr();
                       }
                       return null;
                     },
@@ -130,13 +133,13 @@ class _CreatePurchasePageState extends State<CreatePurchasePage> {
             isActive: currentStep == 0,
           ),
           Step(
-            title: const Text('Step 2'),
+            title: Text(LocaleKeys.purchaseDetails.tr()),
             content: Form(
               child: Column(
                 children: [
                   DropdownButtonFormField<LookupTable>(
-                    decoration: const InputDecoration(
-                      labelText: 'Purchase Status',
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.status.tr(),
                     ),
                     value: lookupTableData != null && purchase.status != null
                         ? lookupTableData!
@@ -152,7 +155,7 @@ class _CreatePurchasePageState extends State<CreatePurchasePage> {
                     },
                     validator: (value) {
                       if (value == null) {
-                        return 'Purchase status is required';
+                        return LocaleKeys.thisIsRequired.tr();
                       }
                       return null;
                     },
@@ -171,7 +174,7 @@ class _CreatePurchasePageState extends State<CreatePurchasePage> {
     var userData = UserData.of(context);
     purchase.student = widget.student;
     purchase.createdBy = userData!.user.person;
-    purchase.lastUpdatedBy = userData!.user.person;
+    purchase.lastUpdatedBy = userData.user.person;
 
     Repository().addStudentsPurchaseAPI(purchase.toJson());
   }
