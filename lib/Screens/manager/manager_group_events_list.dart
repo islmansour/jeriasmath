@@ -25,8 +25,6 @@ class _ManagerGroupEventListState extends State<ManagerGroupEventList> {
 
   @override
   Widget build(BuildContext context) {
-    //setState(() {});
-    print('creatiung list');
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

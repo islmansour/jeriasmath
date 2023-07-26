@@ -21,29 +21,39 @@ class _ManagerSettingsPageState extends State<ManagerSettingsPage> {
         title: Text(LocaleKeys.management.tr()),
       ),
       body: Column(
+        //   mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 80),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomButton(
-                title: LocaleKeys.groups.tr(),
-                onPressed: () {
-                  GroupsClick(context: context);
-                },
-              ),
-              CustomButton(
-                  title: LocaleKeys.students.tr(),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StudentsListPage(),
-                      ),
-                    );
-                  }),
-              CustomButton(title: LocaleKeys.teachers.tr(), onPressed: () {}),
-            ],
+          const SizedBox(
+            height: 24,
+          ),
+          CustomButtonCard(
+            title: LocaleKeys.groups.tr(),
+            buttonIcon: Icons.groups_2,
+            onPressed: () {
+              GroupsClick(context: context);
+            },
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          CustomButtonCard(
+              title: LocaleKeys.students.tr(),
+              buttonIcon: Icons.person,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StudentsListPage(),
+                  ),
+                );
+              }),
+          const SizedBox(
+            height: 8,
+          ),
+          CustomButtonCard(
+            title: LocaleKeys.teachers.tr(),
+            onPressed: () {},
+            buttonIcon: Icons.co_present_outlined,
           ),
         ],
       ),
@@ -51,33 +61,42 @@ class _ManagerSettingsPageState extends State<ManagerSettingsPage> {
   }
 }
 
-class CustomButton extends StatelessWidget {
+class CustomButtonCard extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
-  const CustomButton({super.key, required this.title, required this.onPressed});
+  final IconData buttonIcon;
+
+  const CustomButtonCard(
+      {Key? key,
+      required this.title,
+      required this.onPressed,
+      required this.buttonIcon})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: onPressed,
       onTap: onPressed,
-      // () {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => GroupPage(),
-      //     ),
-      //   );
-      // },
-      child: Container(
-        width: 100,
-        height: 100,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.green,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+              10), // Half of the width and height to make it a circle
         ),
-        child: Center(
-          child: Text(
+        color: Colors.green,
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.white,
+            child: Icon(
+              buttonIcon,
+              color: Colors.green,
+            ),
+          ),
+          trailing: const Icon(
+            Icons.arrow_circle_left_rounded,
+            color: Colors.white,
+          ),
+          title: Text(
             title,
             style: const TextStyle(
               color: Colors.white,

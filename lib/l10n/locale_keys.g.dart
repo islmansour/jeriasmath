@@ -70,6 +70,15 @@ abstract class  LocaleKeys {
   static const back = 'back';
   static const updateRecord = 'updateRecord';
   static const continueBtn = 'continueBtn';
+  static const addPayment = 'addPayment';
+  static const cash = 'cash';
+  static const creditCard = 'creditCard';
+  static const cheque = 'cheque';
+  static const paymentType = 'paymentType';
+  static const chequeNum = 'chequeNum';
+  static const chequeBank = 'chequeBank';
+  static const chequeBranch = 'chequeBranch';
+  static const notes = 'notes';
   static const nodata = 'nodata';
 
 }

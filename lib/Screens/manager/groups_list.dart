@@ -31,7 +31,8 @@ class _GroupPageState extends State<GroupPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (await Navigator.pushNamed(context, '/add_group') == true) {
-            setState(() {});
+            //removed after testing performance 24/7/2023
+            //  setState(() {});
           }
         },
         child: const Icon(Icons.add),
@@ -113,48 +114,28 @@ class _GroupClassCardState extends State<GroupClassCard> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.green[700],
+            child: const Icon(
+              Icons.groups_2,
+              color: Colors.white,
+            ),
+          ),
+          title: Text(
+            widget.group?.name ?? '',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.green[200]!,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.groups_2_rounded,
-                      color: Colors.green.shade700,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        widget.group?.name ?? '',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Icon(
-                      isActive ? Icons.check_circle : Icons.cancel,
-                      color: isActive ? Colors.green : Colors.red,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Row(
                 children: [
                   Expanded(
-                    flex: 6, // 7 parts out of 10 (70%)
                     child: IconWithContent(
                       iconData: Icons.calendar_today,
                       content: widget.group?.weekDays == "[]"
@@ -168,21 +149,30 @@ class _GroupClassCardState extends State<GroupClassCard> {
                                           .replaceAll('יום ', ''))
                                   .join(', ') ??
                               LocaleKeys.notSet.tr(),
+                      title: LocaleKeys.learningDays.tr(),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Row(
+                children: [
                   Expanded(
-                    flex: 3, // 3 parts out of 10 (30%)
                     child: IconWithContent(
                       iconData: Icons.co_present_outlined,
                       content: widget.group!.teacher == null
                           ? ''
                           : '${widget.group!.teacher!.firstName ?? ''} ${widget.group!.teacher!.lastName ?? ''}',
+                      title: LocaleKeys.teacher.tr(),
                     ),
                   ),
                 ],
               ),
             ],
+          ),
+          trailing: Icon(
+            isActive ? Icons.check_circle : Icons.cancel,
+            color: isActive ? Colors.green : Colors.red,
           ),
         ),
       ),
@@ -193,36 +183,38 @@ class _GroupClassCardState extends State<GroupClassCard> {
 class IconWithContent extends StatelessWidget {
   final IconData iconData;
   final String content;
+  final String title;
 
-  const IconWithContent({
-    Key? key,
-    required this.iconData,
-    required this.content,
-  }) : super(key: key);
+  const IconWithContent(
+      {Key? key,
+      required this.iconData,
+      required this.content,
+      required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.green[200]!,
-          width: 1.0,
-        ),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
+      padding: const EdgeInsets.only(right: 8.0),
+      // decoration: BoxDecoration(
+      //   border: Border.all(
+      //     color: Colors.green[200]!,
+      //     width: 1.0,
+      //   ),
+      //   borderRadius: BorderRadius.circular(8.0),
+      // ),
       child: Row(
         children: [
-          Icon(
-            iconData,
-            color: Colors.green.shade700,
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
           ),
           const SizedBox(width: 8),
           Expanded(
             // Wrap the Text widget with Expanded
             child: Text(
               content,
-              style: const TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
               overflow:
                   TextOverflow.ellipsis, // Add ellipsis to handle long text
             ),

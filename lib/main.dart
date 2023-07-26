@@ -85,6 +85,7 @@ class UserData extends InheritedWidget {
 }
 
 void main() async {
+  debugProfileBuildsEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();

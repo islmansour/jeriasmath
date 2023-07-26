@@ -19,7 +19,7 @@ class ApiBaseHelper {
     'content-type': 'application/json',
   };
 
-  String get apiURL => "http://127.0.0.1:8000";
+  String get apiURL => "http://194.233.168.174:8000";
 
   //String ipaddress = '139.162.139.161';
   //final String _baseUrl = 'http://127.0.0.1:8000';
@@ -27,7 +27,8 @@ class ApiBaseHelper {
 
   Future<dynamic> get(String url, {var queryParams}) async {
     var _pref = await SharedPreferences.getInstance();
-    _baseUrl = 'http://127.0.0.1:8000'; //_pref.get('ipAddress').toString();
+    _baseUrl =
+        'http://194.233.168.174:8000'; //_pref.get('ipAddress').toString();
 
     try {
       if (!url.contains('get_user_by_uid')) {
@@ -87,11 +88,12 @@ class ApiBaseHelper {
     var responseJson;
 
     try {
-      final response = await http.post(Uri.parse('http://localhost:8000/$url/'),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: jsonEncode(body));
+      final response =
+          await http.post(Uri.parse('http://194.233.168.174:8000$url/'),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: jsonEncode(body));
       // final response = await http.get(Uri.parse(_baseUrl + url));
       try {
         responseJson = _returnResponse(response);
@@ -241,6 +243,18 @@ class Repository {
     var groupPersonData = responseData['group_person'];
     //print(groupPersonData);
     return GroupPerson.fromJson(groupPersonData);
+  }
+
+  Future<GroupPerson?> createPaymentAPI(Payment record) async {
+    print(record.toJson());
+    var response = await _helper.post(
+      "create_payment",
+      body: record.toJson(),
+    );
+
+    var responseData = jsonDecode(response);
+
+    return GroupPerson.fromJson(responseData);
   }
 
   Future<List<GroupEvent?>?> getGroupEventsAPI(Group? group,

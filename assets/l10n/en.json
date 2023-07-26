@@ -68,5 +68,14 @@
   "back": "Back",
   "updateRecord": "Update",
   "continueBtn": "Continue",
+  "addPayment": "Add Payment",
+  "cash": "Cash",
+  "creditCard": "Credit Card",
+  "cheque": "Cheque",
+  "paymentType": "Payment Type",
+  "chequeNum": "Cheque Number",
+  "chequeBank": "Bank",
+  "chequeBranch": "Branch",
+  "notes": "Notes",
   "nodata": "No data found"
 }

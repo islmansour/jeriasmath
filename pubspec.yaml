@@ -51,6 +51,7 @@ dependencies:
   flutter_multiselect: ^1.0.0
   flutter_calendar_carousel: ^2.4.2
   flash: ^3.0.5+1
+  flutter_date_pickers: ^0.4.2
 flutter_gen:
   enabled: true
 

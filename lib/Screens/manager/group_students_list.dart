@@ -34,9 +34,9 @@ class _GroupPersonsListState extends State<GroupPersonsList> {
       final List<GroupPerson?>? allPersons = userData.groupPersons;
       final List<GroupPerson?> persons =
           allPersons!.where((person) => person?.groupId == groupId).toList();
-      setState(() {
-        this.persons = persons;
-      });
+      //setState(() {
+      this.persons = persons;
+      // });
     }
   }
 

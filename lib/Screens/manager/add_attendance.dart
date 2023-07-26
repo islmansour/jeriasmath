@@ -186,7 +186,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
             onPressed: () {
               userData!.setGroupPersons!(originalList);
               _createAttendanceRecord(context, persons);
-              setState(() {});
+              // setState(() {});
 
               Navigator.pop(context, true);
             },
@@ -239,7 +239,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
         Repository().addStudentsAttendanceAPI(sa.toJson());
       }
     });
-    setState(() {});
+    // setState(() {});
   }
 
   void _showSearchDialog(BuildContext context) {
@@ -331,7 +331,7 @@ class _AddAttendancePageState extends State<AddAttendancePage> {
 
                       addCustomGroupPerson(customGroupPerson);
                       // attednaceResults = [];
-                      setState(() {});
+                      // setState(() {});
 
                       Navigator.pop(context, true);
                     },

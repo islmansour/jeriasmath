@@ -17,12 +17,14 @@ class Payment {
   int? paymentType;
   String? chequeNumber;
   String? chequeBank;
+  String? chequeBranch;
   DateTime? chequeDate;
   String? notes;
 
-  @JsonKey(includeFromJson: true, includeToJson: false)
+  @JsonKey(includeFromJson: true, includeToJson: true)
   Person? student;
   Account? account;
+  @JsonKey(includeFromJson: true, includeToJson: true)
   Purchase? purchase;
   Person? createdBy;
   Person? lastUpdatedBy;
@@ -38,6 +40,7 @@ class Payment {
     this.paymentType,
     this.chequeNumber,
     this.chequeBank,
+    this.chequeBranch,
     this.chequeDate,
     this.notes,
   });

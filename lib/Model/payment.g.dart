@@ -29,6 +29,7 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
       paymentType: json['paymentType'] as int?,
       chequeNumber: json['chequeNumber'] as String?,
       chequeBank: json['chequeBank'] as String?,
+      chequeBranch: json['chequeBranch'] as String?,
       chequeDate: json['chequeDate'] == null
           ? null
           : DateTime.parse(json['chequeDate'] as String),
@@ -47,8 +48,10 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) => <String, dynamic>{
       'paymentType': instance.paymentType,
       'chequeNumber': instance.chequeNumber,
       'chequeBank': instance.chequeBank,
+      'chequeBranch': instance.chequeBranch,
       'chequeDate': instance.chequeDate?.toIso8601String(),
       'notes': instance.notes,
+      'student': instance.student,
       'account': instance.account,
       'purchase': instance.purchase,
       'createdBy': instance.createdBy,

@@ -175,9 +175,11 @@ class _EditStudentFormPageState extends State<EditStudentFormPage> {
       ),
     ];
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(LocaleKeys.addStudent.tr()),
-      // ),
+      appBar: widget.editMode == true
+          ? null
+          : AppBar(
+              title: Text(LocaleKeys.addStudent.tr()),
+            ),
       body: Stepper(
         currentStep: currentStep,
         onStepTapped: (step) {
@@ -255,7 +257,9 @@ class _EditStudentFormPageState extends State<EditStudentFormPage> {
             if (currentStep > 0) {
               currentStep -= 1;
             } else {
-              currentStep = 0;
+              Navigator.pop(context, true);
+
+              //  currentStep = 0;
             }
           });
         },
@@ -299,6 +303,14 @@ class _EditStudentFormPageState extends State<EditStudentFormPage> {
                   child: Text(LocaleKeys.continueBtn.tr()),
                 ),
                 const SizedBox(width: 8.0),
+                if (currentStep == 0)
+                  TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.grey),
+                    ),
+                    onPressed: controlsDetails.onStepCancel,
+                    child: Text(LocaleKeys.cancel.tr()),
+                  ),
                 if (currentStep > 0)
                   TextButton(
                     style: ButtonStyle(

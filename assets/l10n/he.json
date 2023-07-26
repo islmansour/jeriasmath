@@ -68,5 +68,14 @@
   "back": "חזור",
   "updateRecord": "עדכון",
   "continueBtn": "המשך",
+  "addPayment": "הוספת תשלום",
+  "cash": "מזומן",
+  "creditCard": "כרטיס אשראי",
+  "cheque": "צ׳ק",
+  "paymentType": "אופן תשלום",
+  "chequeNum": "מס׳ צ׳ק",
+  "chequeBank": "מס׳ בנק",
+  "chequeBranch": "מס׳ סניף",
+  "notes": "הערות",
   "nodata": "לא נמצאו נתונים"
 }
