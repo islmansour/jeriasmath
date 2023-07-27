@@ -1,14 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/group_event.dart';
+import 'package:jerias_math/Model/group.dart';
+
 import 'package:jerias_math/Model/student_attendance.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/l10n/locale_keys.g.dart';
 
 class EventStudentAttendanceListPage extends StatefulWidget {
   final GroupEvent? groupEvent;
+  final Group? group;
 
-  const EventStudentAttendanceListPage(this.groupEvent, {super.key});
+  const EventStudentAttendanceListPage(this.groupEvent,
+      {super.key, this.group});
 
   @override
   State<EventStudentAttendanceListPage> createState() =>
@@ -39,7 +43,7 @@ class _EventStudentAttendanceListPageState
               ),
             ),
             Text(
-              widget.groupEvent!.group!.name,
+              widget.group!.name,
               style: const TextStyle(fontSize: 16),
             ),
           ],

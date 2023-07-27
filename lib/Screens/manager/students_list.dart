@@ -6,6 +6,7 @@ import 'package:jerias_math/Screens/manager/manager_student_card.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 
 import 'package:jerias_math/l10n/locale_keys.g.dart';
+import 'package:jerias_math/main.dart';
 
 class StudentsListPage extends StatefulWidget {
   const StudentsListPage({super.key});
@@ -25,6 +26,7 @@ class _StudentsListPageState extends State<StudentsListPage> {
   // Rest of the code remains the same
   @override
   Widget build(BuildContext context) {
+    var userData = UserData.of(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -63,40 +65,67 @@ class _StudentsListPageState extends State<StudentsListPage> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<List<Person?>?>(
-              future: Repository().getPersonsAPI(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (snapshot.hasData) {
-                  List<Person?> students = snapshot.data!
+              child:
+                  //  FutureBuilder<List<Person?>?>(
+                  //   future: Repository().getPersonsAPI(),
+                  //   builder: (context, snapshot) {
+                  //     if (snapshot.connectionState == ConnectionState.waiting) {
+                  //       return const Center(child: CircularProgressIndicator());
+                  //     } else if (snapshot.hasError) {
+                  //       return Center(child: Text('Error: ${snapshot.error}'));
+                  //     } else if (snapshot.hasData) {
+                  //       List<Person?> students = snapshot.data!
+                  //           .where((element) => element!.type == 0)
+                  //           .toList();
+                  //       if (_search != "") {
+                  //         students = students
+                  //             .where((element) =>
+                  //                 (element!.firstName!.contains(_search) ||
+                  //                     element.lastName!.contains(_search)))
+                  //             .toList();
+                  //       }
+                  //       return ListView.builder(
+                  //         itemCount: students.length,
+                  //         itemBuilder: (context, index) {
+                  //           final payment = students[index];
+                  //           return MgrStudentCard(student: payment!);
+                  //         },
+                  //       );
+                  //     } else {
+                  //       return Center(
+                  //           child: Text(
+                  //         LocaleKeys.nodata.tr(),
+                  //       ));
+                  //     }
+                  //   },
+                  // ),
+                  ListView.builder(
+            itemCount: _search != ""
+                ? userData!.persons!
+                    .where((element) =>
+                        ((element!.firstName!.contains(_search) ||
+                            element.lastName!.contains(_search))) &&
+                        element.type == 0)
+                    .toList()
+                    .length
+                : userData!.persons!
+                    .where((element) => element!.type == 0)
+                    .toList()
+                    .length,
+            itemBuilder: (context, index) {
+              final student = _search != ""
+                  ? userData.persons!
+                      .where((element) =>
+                          ((element!.firstName!.contains(_search) ||
+                              element.lastName!.contains(_search))) &&
+                          element.type == 0)
+                      .toList()[index]
+                  : userData.persons!
                       .where((element) => element!.type == 0)
-                      .toList();
-                  if (_search != "") {
-                    students = students
-                        .where((element) =>
-                            (element!.firstName!.contains(_search) ||
-                                element.lastName!.contains(_search)))
-                        .toList();
-                  }
-                  return ListView.builder(
-                    itemCount: students.length,
-                    itemBuilder: (context, index) {
-                      final payment = students[index];
-                      return MgrStudentCard(student: payment!);
-                    },
-                  );
-                } else {
-                  return Center(
-                      child: Text(
-                    LocaleKeys.nodata.tr(),
-                  ));
-                }
-              },
-            ),
-          ),
+                      .toList()[index];
+              return MgrStudentCard(student: student!);
+            },
+          )),
         ],
       ),
     );

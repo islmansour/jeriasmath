@@ -1,21 +1,22 @@
 import 'dart:core';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Model/person.dart';
 import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/l10n/locale_keys.g.dart';
 import 'package:jerias_math/main.dart';
+import 'package:jerias_math/weekdays.dart';
 
 List<String> weekDays = [];
 int currentStep = 0;
 List<Step> steps = [];
-DateTime? _currentDate;
 
 class GroupEditPage extends StatefulWidget {
   final Group? group;
 
-  GroupEditPage({required this.group});
+  const GroupEditPage({super.key, required this.group});
 
   @override
   _GroupEditPageState createState() => _GroupEditPageState();
@@ -29,12 +30,26 @@ class _GroupEditPageState extends State<GroupEditPage> {
   String? _selectedTeacherId;
   DateTime? _currentDate;
   int currentStep = 0;
+  List<String> englishWeekdays = [];
+  List<String> translatedWeekdays = [];
+  List<String> weekdaysList = [];
 
   @override
   void initState() {
+    String cleanedString = widget.group!.weekDays[0] == ']'
+        ? widget.group!.weekDays.substring(1, widget.group!.weekDays.length - 1)
+        : widget.group!.weekDays.substring(0, widget.group!.weekDays.length);
+
+    // Step 2: Split the string using ", " as the delimiter
+    weekdaysList = cleanedString.split(", ");
+
+    // Step 3: Trim leading and trailing spaces from each element
+    weekdaysList = weekdaysList.map((weekday) => weekday.trim()).toList();
+
     _currentDate =
         widget.group == null ? DateTime.now() : widget.group!.startDate;
     super.initState();
+    teacherDropdown.clear();
     _group = widget.group!;
     _nameController = TextEditingController(text: _group.name);
     // _typeController = TextEditingController(text: _group.type.toString());
@@ -66,7 +81,6 @@ class _GroupEditPageState extends State<GroupEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(_selectedTeacherId);
     steps = [
       Step(
         title: Text(LocaleKeys.groupDetails.tr()),
@@ -91,9 +105,56 @@ class _GroupEditPageState extends State<GroupEditPage> {
       ),
       Step(
         title: Text(LocaleKeys.dates.tr()),
-        content: const Column(
+        content: Column(
           children: [
-            // Calendar and other form fields
+            // TextFormField(
+            //   onChanged: (value) {
+            //     // Parse the input value to DateTime
+            //     // and update the startDate variable.
+            //   },
+            //   decoration: InputDecoration(labelText: LocaleKeys.startDate.tr()),
+            // ),
+            // TextFormField(
+            //   onChanged: (value) {
+            //     // Parse the input value to DateTime
+            //     // and update the endDate variable.
+            //   },
+            //   decoration: InputDecoration(labelText: LocaleKeys.endDate.tr()),
+            // ),
+            MultiSelect(
+              titleText: LocaleKeys.learningDays.tr(),
+              maxLength: 7, // optional
+              validator: (dynamic value) {
+                return value == null ? LocaleKeys.choose.tr() : null;
+              },
+              hintText: "",
+              maxLengthText: "",
+              selectedOptionsInfoText: "",
+              initialValue: weekdaysList,
+              cancelButtonText: LocaleKeys.cancel.tr(),
+              saveButtonText: LocaleKeys.save.tr(),
+              clearButtonText: LocaleKeys.clear.tr(),
+              errorBorderColor: Colors.transparent,
+              cancelButtonColor: Colors.white70,
+              clearButtonColor: Colors.blue,
+              dataSource: weekdays, // weekdays,
+              textField: 'he',
+              valueField: 'code',
+              filterable: false,
+              required: false,
+              selectedOptionsBoxColor: Colors.transparent,
+              buttonBarColor: Colors.transparent,
+              selectIcon: Icons.arrow_drop_down_circle,
+              onSaved: (value) {
+                List<dynamic> dynamicList =
+                    value as List<dynamic>; // Assuming value is a List<dynamic>
+                List<String> stringList =
+                    dynamicList.map((item) => item.toString()).toList();
+                setState(() {
+                  weekDays = stringList;
+                });
+              },
+            ),
           ],
         ),
       ),
@@ -133,11 +194,12 @@ class _GroupEditPageState extends State<GroupEditPage> {
           //_group.type = int.parse(_typeController.text);
           _group.teacher = _findTeacherById(_selectedTeacherId);
           widget.group!.startDate = _currentDate!;
-
+          widget.group!.weekDays = weekDays.join(", ");
           Repository().upsertGroupsAPI(widget.group).then((value) {
             setState(() {
               //  userData!.upsertGroup!(widget.group);
             });
+
             Navigator.pop(context, true);
           });
 

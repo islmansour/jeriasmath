@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Model/group_event.dart';
 import 'package:jerias_math/Screens/manager/event_attendance.dart';
 
 class GroupEventCard extends StatelessWidget {
   final GroupEvent groupEvent;
+  final Group? group;
 
-  const GroupEventCard(this.groupEvent, {super.key});
+  const GroupEventCard(this.groupEvent, {super.key, this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class GroupEventCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    EventStudentAttendanceListPage(groupEvent)),
+                    EventStudentAttendanceListPage(groupEvent, group: group)),
           );
         },
       ),

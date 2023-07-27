@@ -10,6 +10,7 @@ import 'package:jerias_math/Model/person.dart';
 import 'package:jerias_math/Model/person_group.dart';
 import 'package:jerias_math/Model/purchase.dart';
 import 'package:jerias_math/Model/student_attendance.dart';
+import 'package:jerias_math/services/stream_groups.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +20,8 @@ class ApiBaseHelper {
     'content-type': 'application/json',
   };
 
-  String get apiURL => "http://194.233.168.174:8000";
+//http://143-42-54-17.ip.linodeusercontent.com:8000
+  String get apiURL => "http://127.0.0.1:8000";
 
   //String ipaddress = '139.162.139.161';
   //final String _baseUrl = 'http://127.0.0.1:8000';
@@ -27,8 +29,7 @@ class ApiBaseHelper {
 
   Future<dynamic> get(String url, {var queryParams}) async {
     var _pref = await SharedPreferences.getInstance();
-    _baseUrl =
-        'http://194.233.168.174:8000'; //_pref.get('ipAddress').toString();
+    _baseUrl = 'http://127.0.0.1:8000'; //_pref.get('ipAddress').toString();
 
     try {
       if (!url.contains('get_user_by_uid')) {
@@ -88,12 +89,11 @@ class ApiBaseHelper {
     var responseJson;
 
     try {
-      final response =
-          await http.post(Uri.parse('http://194.233.168.174:8000$url/'),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: jsonEncode(body));
+      final response = await http.post(Uri.parse('http://127.0.0.1:8000/$url/'),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode(body));
       // final response = await http.get(Uri.parse(_baseUrl + url));
       try {
         responseJson = _returnResponse(response);
@@ -218,6 +218,7 @@ class Repository {
     var responseData = jsonDecode(response);
 
     var groupData = responseData['upsert_group'];
+    forceUpdateGroupData();
     return Group.fromJson(groupData);
   }
 
@@ -228,7 +229,7 @@ class Repository {
     );
     var responseData = jsonDecode(response);
     var newPersonId = responseData['id'];
-
+    forceUpdatePersonsData();
     return newPersonId;
   }
 
@@ -241,12 +242,11 @@ class Repository {
     var responseData = jsonDecode(response);
 
     var groupPersonData = responseData['group_person'];
-    //print(groupPersonData);
+    forceUpdategroupPersonsData();
     return GroupPerson.fromJson(groupPersonData);
   }
 
   Future<GroupPerson?> createPaymentAPI(Payment record) async {
-    print(record.toJson());
     var response = await _helper.post(
       "create_payment",
       body: record.toJson(),

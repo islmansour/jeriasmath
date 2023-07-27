@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:jerias_math/Model/group.dart';
 import 'package:jerias_math/Screens/manager/group_details.dart';
-import 'package:jerias_math/api/django_server_api.dart';
 import 'package:jerias_math/l10n/locale_keys.g.dart';
+import 'package:jerias_math/main.dart';
 import 'package:jerias_math/weekdays.dart';
 
 class GroupPage extends StatefulWidget {
@@ -12,6 +12,16 @@ class GroupPage extends StatefulWidget {
 }
 
 class _GroupPageState extends State<GroupPage> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Widget _buildStep({required String title, required Widget content}) {
     return ExpansionTile(
       title: Text(title),
@@ -27,6 +37,7 @@ class _GroupPageState extends State<GroupPage> {
   // Rest of the code remains the same
   @override
   Widget build(BuildContext context) {
+    var userData = UserData.of(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -44,32 +55,40 @@ class _GroupPageState extends State<GroupPage> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder<List<Group?>?>(
-              future: Repository().getGroupsAPI(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (snapshot.hasData) {
-                  List<Group?> groups = snapshot.data!;
+            // child: FutureBuilder<List<Group?>?>(
+            //   future: Repository().getGroupsAPI(),
+            //   builder: (context, snapshot) {
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return const Center(child: CircularProgressIndicator());
+            //     } else if (snapshot.hasError) {
+            //       return Center(child: Text('Error: ${snapshot.error}'));
+            //     } else if (snapshot.hasData) {
+            //       List<Group?> groups = snapshot.data!;
 
-                  return ListView.builder(
-                    itemCount: groups.length,
-                    itemBuilder: (context, index) {
-                      final payment = groups[index];
-                      return GroupClassCard(group: payment!);
-                    },
-                  );
-                } else {
-                  return Center(
-                      child: Text(
-                    LocaleKeys.nodata.tr(),
-                  ));
-                }
+            //       return ListView.builder(
+            //         itemCount: groups.length,
+            //         itemBuilder: (context, index) {
+            //           final payment = groups[index];
+            //           return GroupClassCard(group: payment!);
+            //         },
+            //       );
+            //     } else {
+            //       return Center(
+            //           child: Text(
+            //         LocaleKeys.nodata.tr(),
+            //       ));
+            //     }
+            //   },
+            // ),
+            child: ListView.builder(
+              itemCount: userData!.groups!.length,
+              itemBuilder: (context, index) {
+                final payment = userData.groups![index];
+                return GroupClassCard(group: payment!);
               },
             ),
           ),
+
           // Expanded(
           //   child: ListView.builder(
           //     itemCount: groups!.length,
@@ -132,7 +151,7 @@ class _GroupClassCardState extends State<GroupClassCard> {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Expanded(
@@ -207,7 +226,8 @@ class IconWithContent extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.grey),
           ),
           const SizedBox(width: 8),
           Expanded(

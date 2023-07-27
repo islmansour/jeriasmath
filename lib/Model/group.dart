@@ -20,7 +20,7 @@ class Group {
 
   @JsonKey(includeFromJson: true, includeToJson: true)
   Person? teacher;
-  List<GroupEvent>? groupEvents;
+  List<GroupEvent>? groupEvents = [];
   List<GroupPerson?>? groupStudents;
 
   Group(

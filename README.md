@@ -216,3 +216,11 @@ create_sample_data()
 
 
 "[{"id": 16, "createdBy": null, "created": "2023-07-19T06:04:59.721691+00:00", "lastUpdated": "2023-07-19T06:04:59.721696+00:00",…"
+
+
+    if (preloadedGroups!.length == 0) forceUpdateGroupData();
+    streamSubscription = groupsStreamController.stream.listen((data) {
+      print('in init listening ${data!.length}');
+      preloadedGroups = data;
+      setState(() {});
+    });

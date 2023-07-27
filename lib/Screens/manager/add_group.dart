@@ -82,20 +82,20 @@ class _AddGroupPageState extends State<AddGroupPage> {
         title: Text(LocaleKeys.dates.tr()),
         content: Column(
           children: [
-            TextFormField(
-              onChanged: (value) {
-                // Parse the input value to DateTime
-                // and update the startDate variable.
-              },
-              decoration: InputDecoration(labelText: LocaleKeys.startDate.tr()),
-            ),
-            TextFormField(
-              onChanged: (value) {
-                // Parse the input value to DateTime
-                // and update the endDate variable.
-              },
-              decoration: InputDecoration(labelText: LocaleKeys.endDate.tr()),
-            ),
+            // TextFormField(
+            //   onChanged: (value) {
+            //     // Parse the input value to DateTime
+            //     // and update the startDate variable.
+            //   },
+            //   decoration: InputDecoration(labelText: LocaleKeys.startDate.tr()),
+            // ),
+            // TextFormField(
+            //   onChanged: (value) {
+            //     // Parse the input value to DateTime
+            //     // and update the endDate variable.
+            //   },
+            //   decoration: InputDecoration(labelText: LocaleKeys.endDate.tr()),
+            // ),
             MultiSelect(
               titleText: LocaleKeys.learningDays.tr(),
               maxLength: 7, // optional
@@ -139,31 +139,10 @@ class _AddGroupPageState extends State<AddGroupPage> {
 
       final userData = UserData.of(context);
 
-      Group tmp = (Group(
-        1,
-        groupType,
-        endDate,
-        groupName,
-        startDate,
-        teacher,
-        -1,
-        weekDays.toString(),
-      ));
+      Group tmp = Group(1, groupType, endDate, groupName, startDate, teacher,
+          -1, weekDays.toString());
       userData!.setGroups!(tmp);
       Navigator.pop(context, true);
-      // Navigator.pop(
-      //   context,
-      //   Group(
-      //     1,
-      //     groupType,
-      //     endDate,
-      //     groupName,
-      //     startDate,
-      //     teacher,
-      //     -1,
-      //     weekDays.toString(),
-      //   ),
-      // );
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:jerias_math/Model/group_event.dart';
 import 'package:jerias_math/Screens/group_event_card.dart';
 import 'package:jerias_math/Screens/manager/add_attendance.dart';
 import 'package:jerias_math/api/django_server_api.dart';
+import 'package:jerias_math/main.dart';
 
 class ManagerGroupEventList extends StatefulWidget {
   final Group? group;
@@ -25,42 +26,65 @@ class _ManagerGroupEventListState extends State<ManagerGroupEventList> {
 
   @override
   Widget build(BuildContext context) {
+    var userData = UserData.of(context);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // ignore: unrelated_type_equality_checks
-          if (await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddAttendancePage(group: widget.group),
-                ),
-              ) ==
-              true) setState(() {});
-        },
-        child: const Icon(Icons.add),
-      ),
-      body: FutureBuilder<List<GroupEvent?>?>(
-        future: Repository().getGroupEventsAPI(widget.group),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            // ignore: unrelated_type_equality_checks
+            if (await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        AddAttendancePage(group: widget.group),
+                  ),
+                ) ==
+                true) setState(() {});
+          },
+          child: const Icon(Icons.add),
+        ),
+        body: ListView.builder(
+          itemCount: userData!.groups!
+                      .where((element) => element!.id == widget.group!.id)
+                      .first ==
+                  null
+              ? 0
+              : userData.groups!
+                  .where((element) => element!.id == widget.group!.id)
+                  .first!
+                  .groupEvents!
+                  .length,
+          itemBuilder: (context, index) {
+            return GroupEventCard(
+              userData.groups!
+                  .where((element) => element!.id == widget.group!.id)
+                  .firstOrNull!
+                  .groupEvents![index],
+              group: widget.group,
             );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else {
-            final groupEvents = snapshot.data!;
-            return ListView.builder(
-              itemCount: groupEvents.length,
-              itemBuilder: (context, index) {
-                return GroupEventCard(groupEvents[index]!);
-              },
-            );
-          }
-        },
-      ),
-    );
+          },
+        )
+        // FutureBuilder<List<GroupEvent?>?>(
+        //   future: Repository().getGroupEventsAPI(widget.group),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return const Center(
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     } else if (snapshot.hasError) {
+        //       return Center(
+        //         child: Text('Error: ${snapshot.error}'),
+        //       );
+        //     } else {
+        //       final groupEvents = snapshot.data!;
+        //       return ListView.builder(
+        //         itemCount: groupEvents.length,
+        //         itemBuilder: (context, index) {
+        //           return GroupEventCard(groupEvents[index]!);
+        //         },
+        //       );
+        //     }
+        //   },
+        // ),
+        );
   }
 }

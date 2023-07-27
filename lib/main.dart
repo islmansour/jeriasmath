@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, duplicate_ignore
+
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +22,7 @@ import 'package:jerias_math/api/loadtestdata.dart';
 import 'package:jerias_math/auth.dart';
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:jerias_math/l10n/locale_keys.g.dart';
+import 'package:jerias_math/services/stream_groups.dart';
 
 // flutter pub run easy_localization:generate -S assets/l10n -f keys -O lib/l10n -o locale_keys.g.dart
 
@@ -122,6 +125,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+// ignore: duplicate_ignore
 class _MyAppState extends State<MyApp> {
   PushNotification? _notificationInfo;
 
@@ -201,11 +205,27 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  // ignore: prefer_typing_uninitialized_variables
+  var groupStreamSubscription;
+  var personStreamSubscription;
+  var groupPersonStreamSubscription;
+  @override
+  void dispose() {
+    groupStreamSubscription.cancel();
+    personStreamSubscription.cancel();
+    groupPersonStreamSubscription.cancel();
+    super.dispose();
+  }
+
   @override
   void initState() {
     try {
       registerNotification();
       checkForInitialMessage();
+      forceUpdateGroupData();
+      forceUpdatePersonsData();
+
+      fetchDataPeriodically();
       // For handling notification when the app is in background
       // but not terminated
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -222,6 +242,17 @@ class _MyAppState extends State<MyApp> {
         });
       });
     } catch (e) {}
+    groupStreamSubscription = groupsStreamController.stream.listen((data) {
+      _groups = data; // Handle the received data here
+    });
+
+    personStreamSubscription = personsStreamController.stream.listen((data) {
+      _persons = data;
+    });
+    groupPersonStreamSubscription =
+        groupPersonsStreamController.stream.listen((data) {
+      _groupPersons = data;
+    });
     autologin();
     super.initState();
   }
